@@ -92,15 +92,16 @@
       .reveal pre {
         box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55);
         border-radius: 14px;
-        overflow: hidden;
+        overflow: auto;
+        max-height: 60vh;
         background: #050b16;
         max-width: 80%;
         margin: 1rem auto;
       }
 
       .reveal pre code {
-        font-size: 0.8em;
-        line-height: 1.5;
+        font-size: 0.75em;
+        line-height: 1.4;
         text-shadow: none;
         padding: 1rem 1.25rem;
         display: block;
@@ -197,10 +198,10 @@
 
       @keyframes hero-orbit-webpack {
         from {
-          transform: translate(-50%, -50%) rotate(0deg) translateX(360px);
+          transform: translate(-50%, -50%) rotate(0deg) translateX(300px);
         }
         to {
-          transform: translate(-50%, -50%) rotate(360deg) translateX(360px);
+          transform: translate(-50%, -50%) rotate(360deg) translateX(300px);
         }
       }
 
@@ -356,8 +357,12 @@
             <p>From ESNext/TS/JSX to browser-compatible JavaScript.</p>
 <pre><code class="language-javascript" data-trim>
 // Source (ESNext)
-const greeting = `Hello, ${user.name ?? "friend"}!`;
+const greeting = `Hello, ${user.name || "friend"}!`;
 </code></pre>
+          </section>
+          <section>
+            <h3>Transpilers: Modern JS to Compatible JS (cont.)</h3>
+            <p>What the transpiled output might look like.</p>
 <pre><code class="language-javascript" data-trim>
 // Output (ES5-ish, simplified)
 var name = user && user.name ? user.name : "friend";
@@ -425,6 +430,9 @@ import _ from "lodash";
 
 console.log(_.camelCase("hello world"));
 </code></pre>
+          </section>
+          <section>
+            <h3>Bundlers: Resolve Node-style Imports (cont.)</h3>
 <pre><code class="language-javascript" data-trim>
 // dist/bundle.js (highly simplified)
 (function (modules) {
@@ -459,7 +467,7 @@ function greet(name) {
   message = "Hi " + name;     // ESLint: 'message' is not defined
   if (name == "admin") {      // ESLint: Expected '===' and strict equality
     console.log("Welcome");   // ESLint: Unexpected console statement
-  }                           //        (no-console rule)
+  }
 }
 </code></pre>
 <pre><code class="language-javascript" data-trim>
@@ -467,7 +475,7 @@ function greet(name) {
 function greet(name) {
   const message = `Hi ${name}`;
   if (name === "admin") {
-    console.log("Welcome back!");
+    return "Welcome back!";
   }
   return message;
 }
@@ -620,7 +628,7 @@ function load() {
           </section>
 
           <section>
-            <h3>Oxc: The Tooling Engine</h3>
+            <h3><a href="https://oxc.rs/" target="_blank" rel="noreferrer">Oxc: The Tooling Engine</a></h3>
             <ul>
               <li>Built as a <strong>universal JS/TS tooling engine</strong>: parser, resolver, transformer, minifier, and more.</li>
               <li>Powers tools like <strong>Rolldown</strong> (bundling), <strong>Turborepo</strong> tracing, <strong>Nuxt</strong> plugins, <strong>Biome</strong> config loading, and <strong>Tauri</strong> codemods.</li>
@@ -649,14 +657,14 @@ function load() {
             </ul>
           </section>
 
-          <section>
+          <!-- <section>
             <h3>Action Items for Your Stack</h3>
             <ul>
               <li>If you still run Babel for builds: prefer presets or frameworks that use <strong>SWC</strong> instead.</li>
               <li>Try <strong>Oxlint</strong> or <strong>Biome</strong> on a side branch to see how Rust-powered lint/format feels.</li>
               <li>Keep an eye on <strong>Rolldown</strong>, <strong>Rspack</strong>, and <strong>Turbopack</strong>: they&apos;re how you&apos;ll feel SWC/Oxc speed-ups without writing Rust.</li>
             </ul>
-          </section>
+          </section> -->
         </section>
 
         <!-- 7. Rust bundlers & dev servers -->
@@ -683,6 +691,9 @@ function load() {
             <ul>
               <li>On large React apps, vendor benchmarks show Rspack dev cold start and builds can be <strong>several times faster</strong> than webpack on the same configs.</li>
               <li>If you run a big webpack-based SPA with lots of loaders/plugins, <strong>Rspack is usually your best drop-in performance upgrade</strong>.</li>
+              <li style="margin-top: 0.7rem; font-size: 0.7em; opacity: 0.9;">
+                Source: <a href="https://v0.rspack.rs/misc/benchmark.html" target="_blank" rel="noreferrer">Rspack Benchmarks</a>.
+              </li>
             </ul>
           </section>
 
@@ -708,6 +719,9 @@ function load() {
             <ul>
               <li>Vendor benchmarks report <strong>10–30× faster</strong> bundling than Rollup on many workloads.</li>
               <li>PLAID&apos;s case study: Rollup+Terser → Rolldown+Oxc cut build time from ~1150 ms to ~40 ms (≈97% faster).</li>
+              <li style="margin-top: 0.7rem; font-size: 0.7em; opacity: 0.9;">
+                Source: <a href="https://github.com/rolldown/benchmarks" target="_blank" rel="noreferrer">Rolldown Benchmarks</a>.
+              </li>
             </ul>
           </section>
 
@@ -716,16 +730,19 @@ function load() {
             <ul>
               <li>Successor to webpack from the same author, rewritten in Rust and built specifically around Next.js’ needs.</li>
               <li>Acts as a Next-aware bundler: its graph and invalidation model understand the app router, layouts, server/client components, and multiple runtimes (browser, Node, Edge).</li>
-              <li>Default dev bundler for modern Next.js app router projects; production builds may still fall back to webpack while feature parity evolves.</li>
+              <li><strong>Next.js 16</strong> now defaults to Turbopack for development, with production builds rapidly catching up.</li>
             </ul>
           </section>
 
           <section>
             <h3>Turbopack: Dev Experience</h3>
             <ul>
-              <li>On large Next apps, Vercel&apos;s benchmarks show dev cold start dropping from tens of seconds with webpack to just a few seconds with Turbopack.</li>
-              <li>HMR updates on huge projects go from &quot;go get coffee&quot; to &quot;nearly instant&quot; in many vendor benchmarks.</li>
-              <li>Because Turbopack bakes in Next&apos;s app router and layouts, it can do very fast incremental updates instead of full rebuilds.</li>
+              <li><strong>700x Faster Updates</strong>: On large apps, incremental architecture makes HMR nearly instant compared to Webpack.</li>
+              <li><strong>Faster Startup</strong>: Boots up 5,000 modules in ~4s (vs Vite's ~16.6s), bundling only what's needed.</li>
+              <li><strong>The Mission</strong>: Replacing Babel (17x faster) and Terser (6x faster) was just the start; Turbopack tackles the bundler bottleneck.</li>
+              <li style="margin-top: 0.7rem; font-size: 0.7em; opacity: 0.9;">
+                Source: <a href="https://vercel.com/blog/turbopack" target="_blank" rel="noreferrer">Vercel - Introducing Turbopack</a>.
+              </li>
             </ul>
           </section>
 
@@ -755,7 +772,18 @@ function load() {
             <ul>
               <li>All‑in‑one Rust tool that <strong>lints, formats, and organizes imports</strong> for JS/TS (and more) with a single config.</li>
               <li>Designed as a modern successor to ESLint + Prettier + plugins, with a much faster Rust core.</li>
-              <li>Biome&apos;s own benchmarks show noticeable wins over Prettier/ESLint on real projects, especially in CI.</li>
+              <li><strong>Prettier Challenge Winner</strong>: Achieved >96% compatibility with Prettier (v1.4.0), claiming the bounty in Nov 2023.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Biome: Performance Benchmarks</h3>
+            <p style="font-size: 0.8em; opacity: 0.8; margin-bottom: 1rem;">(MacBook Pro M1, 2020)</p>
+            <ul>
+              <li><strong>Formatting</strong>: ~25x faster than Prettier (single-threaded ~7x).</li>
+              <li><strong>Parallelism</strong>: On M1 Max (10 cores), Biome can be <strong>100x faster</strong> than Prettier.</li>
+              <li><strong>Linting</strong>: ~15x faster than ESLint (even without plugins).</li>
+              <li style="font-size: 0.9em; opacity: 0.9;"><em>"Biome's linter is fast, but there is room for improvements."</em></li>
             </ul>
           </section>
 
@@ -778,6 +806,16 @@ function load() {
           </section>
 
           <section>
+            <h3>Oxlint: JS Plugins Support (Preview)</h3>
+            <ul>
+              <li><strong>Breaking News (Oct 2025)</strong>: Oxlint now supports plugins written in JavaScript!</li>
+              <li><strong>ESLint Compatibility</strong>: Runs many existing ESLint plugins without modification.</li>
+              <li><strong>Hybrid Approach</strong>: Offers an alternative API for better performance while leveraging the vast JS ecosystem.</li>
+              <li style="font-size: 0.9em; opacity: 0.9;"><em>"Performance is good, but it's going to get way better."</em></li>
+            </ul>
+          </section>
+
+          <section>
             <h3>Rust vs ESLint/Prettier – Mental Model</h3>
             <ul>
               <li><strong>ESLint + Prettier</strong>: deeply configurable, huge plugin ecosystem, but slow on large monorepos.</li>
@@ -786,14 +824,14 @@ function load() {
             </ul>
           </section>
 
-          <section>
+          <!-- <section>
             <h3>Action Items: Lint &amp; Format</h3>
             <ul>
               <li>Pick one medium‑size repo and add <strong>Biome</strong> or <strong>Oxlint</strong> alongside your existing ESLint/Prettier setup.</li>
               <li>Run both in CI for a week and compare runtime and flakiness.</li>
               <li>If the experience is good, move “format on save” and most lint rules to the Rust tool and keep only the ESLint rules/plugins you truly depend on.</li>
             </ul>
-          </section>
+          </section> -->
         </section>
 
         <!-- 9. Fast tooling in the AI era -->
@@ -804,7 +842,7 @@ function load() {
           </section>
           <section>
             <img
-              src="./you-are-absolutly-right.png"
+              src="https://raw.githubusercontent.com/Irvingouj/forwardjs-talk/main/slides/you-are-absolutly-right.png"
               alt="Claude 'you're absolutely right' meme"
               style="max-width: 420px; height: auto; margin: 2rem auto 0; display: block;"
             />
@@ -920,18 +958,7 @@ validations / day
           </section>
         </section>
 
-        <!-- 9. Closing -->
-        <section>
-          <h2>Rust Tooling and the Future of JS</h2>
-          <ul>
-            <li>From &quot;JS everywhere&quot; to &quot;Rust under the hood&quot; for tooling.</li>
-            <li>Order-of-magnitude speedups unlock new workflows and scale.</li>
-            <li>You do not have to write Rust to benefit from it.</li>
-            <li>What matters: understanding the tradeoffs and choosing the right stack.</li>
-          </ul>
-        </section>
-
-        <!-- 10. Other ecosystems -->
+        <!-- 9. Other ecosystems -->
         <section>
           <section>
             <h2>Other Fast Tooling (Non-Rust)</h2>
@@ -966,6 +993,17 @@ validations / day
               <li>Rust gives you new options, not an obligation to rewrite everything.</li>
             </ul>
           </section>
+        </section>
+
+        <!-- 10. Closing -->
+        <section>
+          <h2>Rust Tooling and the Future of JS</h2>
+          <ul>
+            <li>From &quot;JS everywhere&quot; to &quot;Rust under the hood&quot; for tooling.</li>
+            <li>Order-of-magnitude speedups unlock new workflows and scale.</li>
+            <li>You do not have to write Rust to benefit from it.</li>
+            <li>What matters: understanding the tradeoffs and choosing the right stack.</li>
+          </ul>
         </section>
       </div>
     </div>
