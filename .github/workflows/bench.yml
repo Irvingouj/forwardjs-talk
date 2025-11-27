@@ -126,6 +126,11 @@ jobs:
       NEON_DATABASE_URL: "postgres://user:pass@localhost:5432/db"
       NEXTAUTH_URL: "http://localhost:3000"
       NEXTAUTH_SECRET: "dummy-secret"
+      MAPBOX_TOKEN: "placeholder"
+      CLOUDINARY_URL: "cloudinary://key:secret@cloud"
+      GOOGLE_CLIENT_ID: "placeholder"
+      GOOGLE_CLIENT_SECRET: "placeholder"
+      NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -180,6 +185,11 @@ jobs:
       NEON_DATABASE_URL: "postgres://user:pass@localhost:5432/db"
       NEXTAUTH_URL: "http://localhost:3000"
       NEXTAUTH_SECRET: "dummy-secret"
+      MAPBOX_TOKEN: "placeholder"
+      CLOUDINARY_URL: "cloudinary://key:secret@cloud"
+      GOOGLE_CLIENT_ID: "placeholder"
+      GOOGLE_CLIENT_SECRET: "placeholder"
+      NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -234,6 +244,11 @@ jobs:
       NEON_DATABASE_URL: "postgres://user:pass@localhost:5432/db"
       NEXTAUTH_URL: "http://localhost:3000"
       NEXTAUTH_SECRET: "dummy-secret"
+      MAPBOX_TOKEN: "placeholder"
+      CLOUDINARY_URL: "cloudinary://key:secret@cloud"
+      GOOGLE_CLIENT_ID: "placeholder"
+      GOOGLE_CLIENT_SECRET: "placeholder"
+      NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -288,6 +303,11 @@ jobs:
       NEON_DATABASE_URL: "postgres://user:pass@localhost:5432/db"
       NEXTAUTH_URL: "http://localhost:3000"
       NEXTAUTH_SECRET: "dummy-secret"
+      MAPBOX_TOKEN: "placeholder"
+      CLOUDINARY_URL: "cloudinary://key:secret@cloud"
+      GOOGLE_CLIENT_ID: "placeholder"
+      GOOGLE_CLIENT_SECRET: "placeholder"
+      NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
