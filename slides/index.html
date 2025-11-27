@@ -581,17 +581,17 @@ function load() {
           <section>
             <h3>ESLint</h3>
             <ul>
-              <li><strong>2013</strong>: created by Nicholas Zakas as a configurable, plugin‑based alternative to JSLint/JSHint where every rule is just JS over an AST.</li>
-              <li><strong>2014–2016</strong>: plugin configs (Airbnb, StandardJS, framework presets) turned ESLint into the hub for code style and best‑practice rules; it joined the JS/OpenJS Foundation as core infra.</li>
-              <li><strong>Today</strong>: virtually every serious JS/TS project wires ESLint into editors and CI; it remains the de‑facto standard linter across the ecosystem.</li>
+              <li><strong>2013</strong>: created by Nicholas Zakas as a configurable, plugin‑based alternative to JSLint/JSHint.</li>
+              <li><strong>Plugins everywhere</strong>: rules are just JS over an AST, which is why Airbnb, StandardJS, React, Vue, TS, and framework presets could all build on top of it.</li>
+              <li><strong>Today</strong>: virtually every serious JS/TS project wires ESLint into editors and CI.</li>
             </ul>
           </section>
           <section>
             <h3>Prettier</h3>
             <ul>
-              <li><strong>2016–2017</strong>: launched as an opinionated formatter that parses code to an AST and prints it back with fixed layout rules to end style bikeshedding.</li>
-              <li><strong>2017–2020s</strong>: rapidly adopted in editors and CLIs, expanded beyond JS to TS, CSS, JSON, GraphQL, Markdown, HTML.</li>
-              <li><strong>Today</strong>: common pattern is ESLint for correctness and Prettier for layout, often using <code>eslint-config-prettier</code>/<code>eslint-plugin-prettier</code> to keep them in sync.</li>
+              <li><strong>2016–2017</strong>: launched as an opinionated AST-based formatter to end code style bikeshedding.</li>
+              <li><strong>Editor-first</strong>: “save = reformat” became the norm across JS/TS, CSS, JSON, GraphQL, Markdown, HTML.</li>
+              <li><strong>Today</strong>: typical setup is ESLint for correctness and Prettier for layout, with a small glue layer to keep them from fighting.</li>
             </ul>
           </section>
         </section>
@@ -629,8 +629,15 @@ function load() {
               <li><strong>Next.js</strong>: SWC is the default compiler and minifier, replacing Babel + Terser in most apps.</li>
               <li><strong>Deno</strong>: uses SWC internally for JS/TS compilation.</li>
               <li><strong>Parcel 2, Rspack/Rsbuild, Jest</strong>: SWC powers fast transforms via <code>@swc/core</code> and <code>@swc/jest</code>.</li>
-              <li><strong>Usage pattern</strong>: teams often run <code>tsc --noEmit</code> for type checking and SWC for emitting JS.</li>
-              <li><strong>Limits</strong>: no built-in type checking; plugin ecosystem is smaller than Babel’s.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>SWC: How Teams Use It</h3>
+            <ul>
+              <li><strong>Usage pattern</strong>: teams often run <code>tsc --noEmit</code> for type checking and let SWC handle emitting JS.</li>
+              <li><strong>Integration</strong>: typically wired in via framework/bundler configs rather than called directly (Next, Deno, Rspack, Parcel, Jest).</li>
+              <li><strong>Limits</strong>: no built-in type checking; plugin ecosystem is smaller than Babel’s, though growing.</li>
             </ul>
           </section>
 
@@ -776,8 +783,14 @@ function load() {
               <li><strong>Origin</strong>: fork and rewrite of the Rome project in Rust, with a singular focus on speed and reliability.</li>
               <li><strong>Performance</strong>: Biome’s own “Prettier challenge” benchmarks show it beating Prettier on both speed and resource usage on real‑world codebases.</li>
               <li><strong>Scope</strong>: single binary that formats, lints, and organizes imports for JS/TS (and more) with one config instead of “ESLint + Prettier + plugins”.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Biome: Frameworks &amp; Recommendation</h3>
+            <ul>
               <li><strong>Framework support</strong>: recent releases (e.g. Biome v2.3) added first‑class support for Vue, Astro, and Svelte on top of React/TS/Node.</li>
-              <li><strong>Recommendation</strong>: if you’ve never tried it, running Biome once over an existing project is an easy way to feel what a Rust‑powered lint+format pipeline can do.</li>
+              <li><strong>Try it once</strong>: if you’ve never used Biome, running it once over an existing project is an easy way to feel a Rust‑powered lint+format pipeline.</li>
             </ul>
           </section>
 
