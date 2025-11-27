@@ -94,6 +94,8 @@
         border-radius: 14px;
         overflow: hidden;
         background: #050b16;
+        max-width: 80%;
+        margin: 1rem auto;
       }
 
       .reveal pre code {
@@ -386,6 +388,116 @@ function Button() {
               <a href="https://swc.rs/playground" target="_blank" rel="noreferrer">swc.rs/playground</a>.
             </p>
           </section>
+          <section>
+            <h3>Bundlers: Bundle for the Browser</h3>
+            <p>Take multiple modules and ship a single browser-ready bundle.</p>
+            <div class="code-row">
+<pre><code class="language-javascript" data-trim>
+// src/index.js
+import { add } from "./math.js";
+
+console.log(add(1, 2));
+</code></pre>
+<pre><code class="language-javascript" data-trim>
+// src/math.js
+export function add(a, b) {
+  return a + b;
+}
+</code></pre>
+            </div>
+<pre><code class="language-javascript" data-trim>
+// dist/main.js (simplified bundle)
+(function () {
+  function add(a, b) {
+    return a + b;
+  }
+
+  console.log(add(1, 2));
+})();
+</code></pre>
+          </section>
+          <section>
+            <h3>Bundlers: Resolve Node-style Imports</h3>
+            <p>Turn <code>import</code> from packages into code the browser can actually run.</p>
+<pre><code class="language-javascript" data-trim>
+// src/index.js (what you write)
+import _ from "lodash";
+
+console.log(_.camelCase("hello world"));
+</code></pre>
+<pre><code class="language-javascript" data-trim>
+// dist/bundle.js (highly simplified)
+(function (modules) {
+  function __webpack_require__(id) {
+    const module = { exports: {} };
+    modules[id](module, module.exports, __webpack_require__);
+    return module.exports;
+  }
+
+  __webpack_require__("./src/index.js");
+})({
+  "./src/index.js"(module, exports, __webpack_require__) {
+    const _ = __webpack_require__(
+      "./node_modules/lodash/lodash.js",
+    );
+
+    console.log(_.camelCase("hello world"));
+  },
+
+  "./node_modules/lodash/lodash.js"(module, exports) {
+    // lodash implementation here...
+  },
+});
+</code></pre>
+          </section>
+          <section>
+            <h3>Linters: Catch Bugs Early</h3>
+            <p>Static checks that prevent common mistakes.</p>
+<pre><code class="language-javascript" data-trim>
+// Before (ESLint screaming)
+function greet(name) {
+  message = "Hi " + name;     // ESLint: 'message' is not defined
+  if (name == "admin") {      // ESLint: Expected '===' and strict equality
+    console.log("Welcome");   // ESLint: Unexpected console statement
+  }                           //        (no-console rule)
+}
+</code></pre>
+<pre><code class="language-javascript" data-trim>
+// After (ESLint fixes)
+function greet(name) {
+  const message = `Hi ${name}`;
+  if (name === "admin") {
+    console.log("Welcome back!");
+  }
+  return message;
+}
+</code></pre>
+          </section>
+          <section>
+            <h3>Formatters: Make Code Consistent</h3>
+            <p>Automatic formatting so style debates disappear.</p>
+<pre><code class="language-javascript" data-trim>
+// Before
+const query={limit:10,offset:0, filters:[ "rust","tooling" ] }
+function load(){return fetch("/api/search",{
+method:"POST",body:JSON.stringify(query)})}
+</code></pre>
+<pre><code class="language-javascript" data-trim>
+// After (formatted)
+const query = {
+  limit: 10,
+  offset: 0,
+  filters: ["rust", "tooling"],
+};
+
+function load() {
+  return fetch("/api/search", {
+    method: "POST",
+    body: JSON.stringify(query),
+  });
+}
+</code></pre>
+          </section>
         </section>
 
         <!-- 4. Why Rust tooling -->
@@ -401,16 +513,15 @@ function Button() {
               style="max-width: 380px; height: auto; margin: 2rem auto 0;"
             />
             <p style="margin-top: 1.2rem; font-size: 0.9em; opacity: 0.9;">
-              People are just bored.
+              Let&apos;s just rewrite everything in Rust!
             </p>
           </section>
           <section>
             <h2>Why Do We Actually Need Rust Tooling?</h2>
             <ul>
-              <li>Slow cold starts and HMR in large apps.</li>
-              <li>Long CI builds and expensive pipelines.</li>
-              <li>Complex, fragile configurations in legacy toolchains.</li>
-              <li>New Rust tools offer 10–25× faster builds.</li>
+              <li>Faster.</li>
+              <li class="fragment">Both development time for better developer experience and cheaper CI cost.</li>
+              <li class="fragment">Old tools can&apos;t keep up with today&apos;s scale and needs.</li>
             </ul>
           </section>
         </section>
@@ -468,69 +579,24 @@ function Button() {
             </ul>
           </section>
           <section>
-            <h3>ESLint &amp; Prettier</h3>
+            <h3>ESLint</h3>
             <ul>
-              <li><strong>ESLint (2013)</strong>: created by Nicholas Zakas as a configurable, plugin‑based alternative to JSLint/JSHint where every rule is pluggable JS over an AST.</li>
+              <li><strong>2013</strong>: created by Nicholas Zakas as a configurable, plugin‑based alternative to JSLint/JSHint where every rule is just JS over an AST.</li>
               <li><strong>2014–2016</strong>: plugin configs (Airbnb, StandardJS, framework presets) turned ESLint into the hub for code style and best‑practice rules; it joined the JS/OpenJS Foundation as core infra.</li>
               <li><strong>Today</strong>: virtually every serious JS/TS project wires ESLint into editors and CI; it remains the de‑facto standard linter across the ecosystem.</li>
-              <li><strong>Prettier (2016–2017)</strong>: launched as an opinionated formatter that parses code to an AST and prints it back with fixed layout rules to end style bikeshedding.</li>
-              <li><strong>2017–2020s</strong>: rapidly adopted in editors and CLIs, expanded beyond JS to TS, CSS, JSON, GraphQL, Markdown, HTML; the common pattern is ESLint for correctness and Prettier for layout, often using <code>eslint-config-prettier</code>/<code>eslint-plugin-prettier</code> to keep them in sync.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Prettier</h3>
+            <ul>
+              <li><strong>2016–2017</strong>: launched as an opinionated formatter that parses code to an AST and prints it back with fixed layout rules to end style bikeshedding.</li>
+              <li><strong>2017–2020s</strong>: rapidly adopted in editors and CLIs, expanded beyond JS to TS, CSS, JSON, GraphQL, Markdown, HTML.</li>
+              <li><strong>Today</strong>: common pattern is ESLint for correctness and Prettier for layout, often using <code>eslint-config-prettier</code>/<code>eslint-plugin-prettier</code> to keep them in sync.</li>
             </ul>
           </section>
         </section>
 
-        <!-- 6. Rust bundlers & dev servers -->
-        <section>
-          <section>
-            <h2>Rust Bundlers &amp; Dev Servers</h2>
-            <ul>
-              <li>Rust bundlers aim to replace webpack/Rollup at the “bundle &amp; serve” layer.</li>
-              <li>Key players today: <strong>Rspack</strong>, <strong>Rolldown</strong>, and <strong>Turbopack</strong> (plus Bun/esbuild around them).</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3>Rspack: Turbocharged Webpack</h3>
-            <ul>
-              <li>Rust-powered bundler with largely webpack-compatible config; intended as a drop-in upgrade for many webpack projects.</li>
-              <li>In independent React benchmarks, Rspack with SWC has been about 4× faster than webpack(esbuild) and ~6× faster than Rollup(esbuild) on synthetic large apps.</li>
-              <li>Rspack’s own “50k modules” benchmark shows dev cold start around 3.8 s vs 31–42 s for webpack(SWC/Babel), and prod builds ~3–7× faster than webpack on the same config.</li>
-              <li>Net effect: for teams living in webpack land, Rspack can drastically cut both initial build and HMR times without rewriting configs from scratch.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3>Rolldown: Rust Rollup for Vite</h3>
-            <ul>
-              <li>Rust implementation inspired by Rollup, designed to become Vite’s future production bundler.</li>
-              <li>Rolldown’s own large React app benchmark (~19k modules) shows Rolldown roughly 2–3× faster than Rspack/Rsbuild and on par with esbuild in build time.</li>
-              <li>Case studies like PLAID’s library build report cutting Rollup+Terser builds from ~1150 ms down to ~40 ms by switching to Rolldown + Oxc (≈97% faster).</li>
-              <li>In practice: if you are in the Vite ecosystem, Rolldown is positioned as the long-term answer for fast, large production bundles.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3>Turbopack: Next.js Dev Bundler</h3>
-            <ul>
-              <li>Rust bundler from webpack’s original author, integrated as the default dev bundler in modern Next.js versions.</li>
-              <li>Vercel’s launch benchmarks on large Next apps report cold-start dev boot dropping from ~35 s (webpack) to ~2 s (Turbopack), and HMR updates up to hundreds of times faster on huge projects.</li>
-              <li>Third-party HMR benches (Vite vs Next+Turbopack vs Parcel) show more modest gaps versus Vite, but still consistently large wins over legacy webpack.</li>
-              <li>For most Next.js users, adopting Turbopack is effectively automatic: upgrade the framework and you get a much faster dev bundler.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3>Rust Bundlers: Rough Ordering &amp; Caveats</h3>
-            <ul>
-              <li><strong>Rspack</strong>: huge win over webpack on webpack-style configs (often several times faster in dev and prod, especially on big apps).</li>
-              <li><strong>Rolldown</strong>: generally faster than Rspack in its own large-app benchmarks and significantly faster than Rollup in case studies; designed for Vite’s prod builds.</li>
-              <li><strong>Turbopack</strong>: extremely fast dev loops for large Next.js apps; best choice if you live in the Next/Vercel ecosystem.</li>
-              <li><strong>But</strong>: different benchmarks disagree on exact factors; numbers depend heavily on project shape and config. Treat the ordering as a ballpark, and benchmark your own workloads when choosing.</li>
-            </ul>
-          </section>
-        </section>
-
-        <!-- 7. Rust transpilers & compilers -->
+        <!-- 6. Rust transpilers & compilers -->
         <section>
           <section>
             <h2>Rust Transpilers &amp; Compilers</h2>
@@ -619,53 +685,180 @@ function Button() {
           </section>
         </section>
 
-        <!-- 8. Vercel vs Vite ecosystems -->
+        <!-- 7. Rust bundlers & dev servers -->
         <section>
           <section>
-            <h2>Two Rust Tooling Ecosystems</h2>
+            <h2>Rust Bundlers &amp; Dev Servers</h2>
             <ul>
-              <li>Vercel-backed: SWC, Turbopack, Turborepo, tightly integrated with Next.js.</li>
-              <li>Vite-backed: Vite, Rolldown, and tools building on Oxc.</li>
-              <li>Shared goals: speed and DX; different scopes and philosophies.</li>
+              <li>Rust bundlers aim to replace webpack/Rollup at the “bundle &amp; serve” layer.</li>
+              <li>Three main flavors: <strong>Rspack</strong> (Webpack-native), <strong>Rolldown</strong> (Vite-native), and <strong>Turbopack</strong> (Next-native).</li>
             </ul>
           </section>
 
           <section>
-            <h3>Vercel Stack</h3>
+            <h3>Rspack: What It Is</h3>
             <ul>
-              <li>Next.js app framework as the entry point.</li>
-              <li>SWC for compilation; Turbopack for bundling and dev server.</li>
-              <li>Turborepo for monorepo orchestration and remote caching.</li>
-              <li>End-to-end path: dev, build, and deploy on Vercel.</li>
+              <li>Rust-powered bundler from ByteDance that keeps the <strong>Webpack mental model</strong> and ecosystem.</li>
+              <li>Exposes a webpack-like config surface (entry, loaders, plugins, optimization).</li>
+              <li>Implements familiar webpack features like HMR, code splitting, and asset handling.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Vite Stack</h3>
+            <h3>Rspack: Performance &amp; Fit</h3>
             <ul>
-              <li>Vite as dev server and build orchestrator.</li>
-              <li>Dev mode: ESM-based, esbuild-powered fast HMR.</li>
-              <li>Prod mode: Rollup today, Rolldown tomorrow.</li>
-              <li>Framework-agnostic: Vue, React, Svelte, Solid, and more.</li>
+              <li>In React benchmarks, Rspack with SWC has been roughly <strong>4× faster than webpack(esbuild)</strong> and <strong>~6× faster than Rollup(esbuild)</strong> on synthetic large apps.</li>
+              <li>Rspack’s own 50k-modules benchmark shows dev cold start around <strong>3.8 s vs 31–42 s</strong> for webpack, prod builds around <strong>22 s vs 75–160 s</strong> on the same configs.</li>
+              <li>If you run a big webpack-based SPA with lots of loaders/plugins, <strong>Rspack is your best bet</strong> for a drop-in performance upgrade.</li>
             </ul>
           </section>
 
           <section>
-            <h3>DX and Tradeoffs</h3>
+            <h3>Rolldown: Why Vite Is Migrating</h3>
             <ul>
-              <li>Vercel: opinionated, integrated stack optimized for Next.js teams.</li>
-              <li>Vite: flexible toolchain suitable for diverse frameworks.</li>
-              <li>Vercel: smoother &quot;one platform&quot; experience; stronger coupling.</li>
-              <li>Vite: more choices and combinability; requires infra decisions.</li>
+              <li><strong>Unification</strong>: Vite today uses esbuild for dependency pre-bundling and Rollup for production; Rolldown’s goal is a single Rust bundler that handles both.</li>
+              <li><strong>Compatibility</strong>: supports a Rollup/Vite-compatible plugin API so most existing Vite/Rollup plugins can be reused.</li>
+              <li><strong>Positioning</strong>: designed as Vite’s long-term default bundler and a drop-in Rollup replacement.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Choosing a Path</h3>
+            <h3>Rolldown: Features &amp; Extras</h3>
             <ul>
-              <li>Heavy Next.js and Vercel user: lean into SWC, Turbopack, Turborepo.</li>
-              <li>Multi-framework or micro-frontend: Vite + Rolldown + emerging Oxc tools.</li>
-              <li>Linting and formatting: consider Biome regardless of build stack.</li>
+              <li>Built-in TS/JSX/syntax lowering, Node-style resolution, ESM/CJS interop, <code>define</code>/<code>inject</code>, experimental CSS bundling and minification.</li>
+              <li>Reports roughly <strong>10–30× faster than Rollup</strong> on comparable workloads, with a WASM build that outperforms esbuild’s.</li>
+              <li>Case studies (e.g. PLAID) show Rollup+Terser → Rolldown+Oxc cutting build times from ~1150 ms to ~40 ms (≈97% faster).</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Turbopack: Next-native Bundler</h3>
+            <ul>
+              <li>Successor to webpack from the same author, rewritten in Rust and built specifically around Next.js’ needs.</li>
+              <li>Acts as a Next-aware bundler: its graph and invalidation model understand the app router, layouts, server/client components, and multiple runtimes (browser, Node, Edge).</li>
+              <li>Default dev bundler for modern Next.js app router projects; production builds may still fall back to webpack while feature parity evolves.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Turbopack: Dev Experience</h3>
+            <ul>
+              <li>Vercel’s benchmarks show cold start on large Next apps dropping from ~35 s (webpack) to ~2 s with Turbopack.</li>
+              <li>HMR updates on huge projects can be up to hundreds of times faster than webpack in vendor benchmarks.</li>
+              <li>Instead of layering Next.js on top of a generic bundler, Turbopack bakes Next’s assumptions into the bundler and uses Rust to make incremental updates feel instant.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Rust Bundlers: How to Choose</h3>
+            <ul>
+              <li><strong>Still on webpack</strong>: big webpack SPA with lots of loaders/plugins → <strong>Rspack</strong> is your best bet.</li>
+              <li><strong>On Vite</strong>: stay put—<strong>Rolldown</strong> is being built as Vite’s native bundler, and Evan + the VoidZero team will smooth the migration.</li>
+              <li><strong>On Next.js for work</strong>: Next 16 already defaults to <strong>Turbopack</strong> for dev. Enjoy the speed, and keep some Claude Code or Codex budget handy for sharp edges.</li>
+              <li><strong>Benchmark your own app</strong>: published numbers disagree on exact factors; real gains depend heavily on your project shape and config.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 8. Rust linters & formatters -->
+        <section>
+          <section>
+            <h2>Rust Linters &amp; Formatters</h2>
+            <ul>
+              <li>Rust tools aiming to replace the ESLint + Prettier combo with faster, more integrated workflows.</li>
+              <li>Two important efforts: <strong>Biome</strong> as an all‑in‑one tool, and <strong>Oxc</strong> as the engine behind future lint/format tooling.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Biome: Rome Reborn in Rust</h3>
+            <ul>
+              <li><strong>Origin</strong>: fork and rewrite of the Rome project in Rust, with a singular focus on speed and reliability.</li>
+              <li><strong>Performance</strong>: Biome’s own “Prettier challenge” benchmarks show it beating Prettier on both speed and resource usage on real‑world codebases.</li>
+              <li><strong>Scope</strong>: single binary that formats, lints, and organizes imports for JS/TS (and more) with one config instead of “ESLint + Prettier + plugins”.</li>
+              <li><strong>Framework support</strong>: recent releases (e.g. Biome v2.3) added first‑class support for Vue, Astro, and Svelte on top of React/TS/Node.</li>
+              <li><strong>Recommendation</strong>: if you’ve never tried it, running Biome once over an existing project is an easy way to feel what a Rust‑powered lint+format pipeline can do.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Oxc: Engine for Future Linters &amp; Formatters</h3>
+            <ul>
+              <li><strong>Oxc</strong> is a Rust compiler/tooling platform that also powers experimental linters and formatters (for example, <em>oxlint</em> and Oxc‑based formatters).</li>
+              <li><strong>Design goals</strong>: very fast parsing and transforms, small binary size, and modern JS/TS support suitable for editor‑on‑save workflows.</li>
+              <li><strong>Benchmarks</strong>: Oxc‑based tools often show tens‑of‑times speedups over Babel/ESLint/Prettier stacks on transform and minification workloads.</li>
+              <li><strong>Role</strong>: think of Oxc as the Rust “engine room” that future lint/format tools (including Biome integrations) can build on.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Rust Linters &amp; Formatters: Where They Shine</h3>
+            <ul>
+              <li>Running lint + format on every save or pre‑commit without making editors feel sluggish.</li>
+              <li>Large monorepos where ESLint + Prettier currently dominate CI time.</li>
+              <li>Teams that want “one tool, one config” instead of wiring ESLint rules and Prettier plugins together by hand.</li>
+              <li>But: if you rely heavily on niche ESLint rules or plugins, you may still need ESLint in the loop for now.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 9. Fast tooling in the AI era -->
+        <section>
+          <section>
+            <h2>What Does Fast Tooling Mean in the AI Era?</h2>
+            <p>Or: how many extra “you are absolutely right”s can you get per day?</p>
+          </section>
+          <section>
+            <img
+              src="./you-are-absolutly-right.png"
+              alt="Claude 'you're absolutely right' meme"
+              style="max-width: 420px; height: auto; margin: 2rem auto 0; display: block;"
+            />
+            <p style="margin-top: 1.2rem; font-size: 0.95em;">
+              We call this the <strong>“You Are Absolutely Right” Index</strong> – a tongue-in-cheek way to measure how often your build system lets your AI pair tell you that you’re right.
+            </p>
+          </section>
+          <section>
+            <h3>Setup: One Task Loop</h3>
+            <ul>
+              <li>You ask an AI assistant to do something on your project.</li>
+              <li>Roughly every task takes about <strong>10 minutes of AI work</strong>.</li>
+              <li>After each task, you run lint + build to check it.</li>
+            </ul>
+<pre><code class="language-javascript" data-trim>
+// Legacy loop (webpack-era)
+10 min AI work
++ 4 min build (webpack)
+= 14 min per validation
+
+// Rust tooling loop
+10 min AI work
++ ~0.7 min build (Rust tools)
+= ~10.7 min per validation
+</code></pre>
+          </section>
+          <section>
+            <h3>Per 8-Hour Day: How Many “You’re Absolutely Right”s?</h3>
+            <p>Assume an 8-hour day (480 minutes).</p>
+            <div style="display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; font-size: 0.95em;">
+              <div>
+                <p style="font-weight: 600; margin-bottom: 0.4rem;">Legacy stack (webpack)</p>
+<pre><code class="language-javascript" data-trim>
+480 / 14 ≈ 34
+validations / day
+</code></pre>
+              </div>
+              <div>
+                <p style="font-weight: 600; margin-bottom: 0.4rem;">Rust stack (SWC/Rspack/Rolldown/Biome)</p>
+<pre><code class="language-javascript" data-trim>
+480 / 10.8 ≈ 44
+validations / day
+</code></pre>
+              </div>
+            </div>
+            <ul>
+              <li>Difference: roughly <strong>10 extra “you are absolutely right”s per day</strong> from your AI pair.</li>
+              <li>Run three tasks in parallel and you’re looking at ~30 extra micro‑dopamine hits of AI validation.</li>
             </ul>
           </section>
         </section>
