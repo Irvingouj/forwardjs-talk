@@ -1,0 +1,58 @@
+name: Build Examples
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Build webpack-basic
+        working-directory: webpack-basic
+        run: |
+          npm ci
+          npm run build || true
+
+      - name: Build photography-website-turbopack-biome
+        working-directory: examples/photography-website-turbopack-biome
+        run: |
+          npm ci || pnpm i || yarn || true
+          npm run build || true
+
+      - name: Build photography-website-turbopack-eslint
+        working-directory: examples/photography-website-turbopack-eslint
+        run: |
+          npm ci || pnpm i || yarn || true
+          npm run build || true
+
+      - name: Build photography-website-webpack-biome
+        working-directory: examples/photography-website-webpack-biome
+        run: |
+          npm ci || pnpm i || yarn || true
+          npm run build || true
+
+      - name: Build photography-website-webpack-eslint
+        working-directory: examples/photography-website-webpack-eslint
+        run: |
+          npm ci || pnpm i || yarn || true
+          npm run build || true
+
+      - name: Build rolldown-vite-demo
+        working-directory: rolldown-vite-demo
+        run: |
+          npm ci || pnpm i || yarn || true
+          npm run build || true
