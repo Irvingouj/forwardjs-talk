@@ -543,10 +543,9 @@ function load() {
               style="max-width: 140px; height: auto; margin: 0 0 1rem 0;"
             />
             <ul>
-              <li><strong>2014</strong>: launched as <em>6to5</em>, compiling ES6 down to ES5 so new syntax could run in old browsers.</li>
-              <li><strong>2015</strong>: renamed <strong>Babel</strong> and repositioned as a general JS compiler platform with presets, plugins, and AST tooling.</li>
-              <li><strong>2015–2017</strong>: became the backbone of “modern JS” stacks, handling ESNext, JSX, and later TypeScript/Flow in almost every webpack-based project.</li>
-              <li><strong>Today</strong>: still the most feature-complete and extensible transpiler when you need full spec coverage or custom transforms, even as faster Rust/Go tools appear.</li>
+              <li><strong>2014 → 2015</strong>: from <em>6to5</em> to <strong>Babel</strong>, making new JS & JSX run everywhere.</li>
+              <li><strong>Backbone of modern JS</strong>: powered most webpack-era React/SPA builds.</li>
+              <li><strong>Still the most flexible</strong> when you need deep AST tooling or custom transforms.</li>
             </ul>
           </section>
           <section>
@@ -572,26 +571,17 @@ function load() {
               />
             </div>
             <ul>
-              <li><strong>2014</strong>: introduced as a JS module bundler that turns <code>require</code>/<code>import</code> graphs into browser-ready bundles.</li>
-              <li><strong>2015–2016</strong>: rode the React and SPA wave; “everything is a module” plus dev server and HMR made it the default for complex front‑ends.</li>
-              <li><strong>2016–2017</strong>: loader/plugin ecosystem exploded (babel-loader, style-loader, file-loader, etc.); many CLIs embed webpack under the hood.</li>
-              <li><strong>Today</strong>: still entrenched in large and long‑lived apps, but known for slow cold builds, sluggish HMR, and configuration complexity at scale.</li>
+              <li><strong>2014</strong>: turned <code>require</code>/<code>import</code> graphs into browser bundles.</li>
+              <li><strong>React & SPA decade</strong>: dev server + HMR made webpack the default for big front‑ends.</li>
+              <li><strong>Today</strong>: still everywhere, but infamous for slow cold builds and complex configs.</li>
             </ul>
           </section>
           <section>
-            <h3>ESLint</h3>
+            <h3>ESLint &amp; Prettier</h3>
             <ul>
-              <li><strong>2013</strong>: created by Nicholas Zakas as a configurable, plugin‑based alternative to JSLint/JSHint.</li>
-              <li><strong>Plugins everywhere</strong>: rules are just JS over an AST, which is why Airbnb, StandardJS, React, Vue, TS, and framework presets could all build on top of it.</li>
-              <li><strong>Today</strong>: virtually every serious JS/TS project wires ESLint into editors and CI.</li>
-            </ul>
-          </section>
-          <section>
-            <h3>Prettier</h3>
-            <ul>
-              <li><strong>2016–2017</strong>: launched as an opinionated AST-based formatter to end code style bikeshedding.</li>
-              <li><strong>Editor-first</strong>: “save = reformat” became the norm across JS/TS, CSS, JSON, GraphQL, Markdown, HTML.</li>
-              <li><strong>Today</strong>: typical setup is ESLint for correctness and Prettier for layout, with a small glue layer to keep them from fighting.</li>
+              <li><strong>ESLint (2013)</strong>: configurable, plugin‑based linter that every major JS/TS style guide built on.</li>
+              <li><strong>Prettier (2016)</strong>: opinionated formatter that turned “save” into “reformat and end bikeshedding”.</li>
+              <li><strong>Standard combo</strong>: ESLint for correctness + Prettier for layout in almost every modern JS repo.</li>
             </ul>
           </section>
         </section>
@@ -599,95 +589,72 @@ function load() {
         <!-- 6. Rust transpilers & compilers -->
         <section>
           <section>
-            <h2>Rust Transpilers &amp; Compilers</h2>
+            <h2>Rust Compilers You Actually Touch</h2>
             <ul>
-              <li>Rust replaces Babel/tsc at the “compile JS/TS” layer with much faster engines.</li>
-              <li>Two key players today: <strong>SWC</strong> and <strong>Oxc</strong>.</li>
+              <li><strong>SWC</strong>: Babel-style JS/TS compiler rewritten in Rust, used by frameworks and bundlers.</li>
+              <li><strong>Oxc</strong>: a general-purpose JS/TS tooling engine powering linters, bundlers, codemods, and more.</li>
+              <li>You usually don&apos;t call either directly — you feel them through faster builds and linting.</li>
             </ul>
           </section>
 
           <section>
-            <div class="tool-heading">
-              <img
-                src="https://swc.rs/logo.png"
-                alt="SWC logo"
-                style="max-width: 120px; height: auto; margin: 0;"
-              />
-              <h3>SWC: What It Is</h3>
-            </div>
+            <h3>SWC: Faster Babel Under the Hood</h3>
             <ul>
-              <li><strong>Speedy Web Compiler</strong>: “Babel written in Rust”, an embeddable JS/TS compiler core.</li>
-              <li><strong>Role</strong>: parses JS/TS/JSX, runs built‑in transforms, and emits JS + source maps; exposed to Node via native bindings.</li>
-              <li><strong>Goal</strong>: be the low-level engine used by frameworks and bundlers rather than a CLI you use directly.</li>
-              <li><strong>Performance</strong>: commonly 10–20× faster than Babel in real projects, even more in microbenchmarks.</li>
+              <li>Replaces Babel/tsc emit in tools like <strong>Next.js</strong>, <strong>Rspack</strong>, <strong>Deno</strong>, <strong>Parcel</strong>, and <strong>Jest</strong>.</li>
+              <li>Same mental model: parses JS/TS/JSX, runs transforms, emits browser-ready JS and source maps.</li>
+              <li>Vendor benchmarks often show <strong>order-of-magnitude faster</strong> transforms than Babel once you use all your CPU cores.</li>
+              <li style="margin-top: 0.7rem; font-size: 0.7em; opacity: 0.9;">
+                Source: <a href="https://swc.rs" target="_blank" rel="noreferrer">swc.rs</a>,
+                <a href="https://swc.rs/blog/perf-swc-vs-babel" target="_blank" rel="noreferrer">SWC vs Babel benchmark</a>.
+              </li>
             </ul>
           </section>
 
           <section>
-            <h3>SWC in the Ecosystem</h3>
+            <h3>How You Actually Use SWC</h3>
             <ul>
-              <li><strong>Next.js</strong>: SWC is the default compiler and minifier, replacing Babel + Terser in most apps.</li>
-              <li><strong>Deno</strong>: uses SWC internally for JS/TS compilation.</li>
-              <li><strong>Parcel 2, Rspack/Rsbuild, Jest</strong>: SWC powers fast transforms via <code>@swc/core</code> and <code>@swc/jest</code>.</li>
+              <li>You almost never run <code>swc</code> yourself; your framework wires it in.</li>
+              <li>Common pattern: keep <code>tsc --noEmit</code> (or your language server) for type-checking, let SWC handle emitting JS.</li>
+              <li>If your app still uses <strong>Babel</strong> for heavy TS/JS transforms, you&apos;re likely paying a large, avoidable perf tax.</li>
             </ul>
           </section>
 
           <section>
-            <h3>SWC: How Teams Use It</h3>
+            <h3>Oxc: The Tooling Engine</h3>
             <ul>
-              <li><strong>Usage pattern</strong>: teams often run <code>tsc --noEmit</code> for type checking and let SWC handle emitting JS.</li>
-              <li><strong>Integration</strong>: typically wired in via framework/bundler configs rather than called directly (Next, Deno, Rspack, Parcel, Jest).</li>
-              <li><strong>Limits</strong>: no built-in type checking; plugin ecosystem is smaller than Babel’s, though growing.</li>
+              <li>Built as a <strong>universal JS/TS tooling engine</strong>: parser, resolver, transformer, minifier, and more.</li>
+              <li>Powers tools like <strong>Rolldown</strong> (bundling), <strong>Turborepo</strong> tracing, <strong>Nuxt</strong> plugins, <strong>Biome</strong> config loading, and <strong>Tauri</strong> codemods.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Oxc: The Next Rust Engine</h3>
+            <h3>Oxc in the Wild</h3>
             <ul>
-              <li><strong>Oxc project</strong>: a newer Rust-based compiler platform, developed to push beyond SWC in speed and ergonomics.</li>
-              <li><strong>Goals</strong>: provide a very fast JS/TS transformer, isolated <code>.d.ts</code> emit, and minification, acting as the core for future tools (e.g. VoidZero’s stack, dprint, Biome integrations).</li>
-              <li><strong>Design</strong>: smaller packages, lower memory usage, and APIs designed from day one to support modern React/TS workflows.</li>
+              <li><strong>Oxlint</strong> (Oxc-based linter) is used at scale by teams like <strong>Shopify</strong> on the admin console and thousands of early adopters, cutting CI time and cost.</li>
+              <li>For most app developers, you&apos;ll meet Oxc <strong>indirectly</strong> through these tools rather than configuring it by hand.</li>
+              <li style="margin-top: 0.7rem; font-size: 0.7em; opacity: 0.9;">
+                Source: <a href="https://oxc.rs" target="_blank" rel="noreferrer">oxc.rs</a>,
+                <a href="https://oxc.rs/docs/guide/projects" target="_blank" rel="noreferrer">Projects using Oxc</a>,
+                <a href="https://voidzero.dev/posts/announcing-oxlint-1-stable" target="_blank" rel="noreferrer">Oxlint 1.0 announcement</a>.
+              </li>
             </ul>
           </section>
 
           <section>
-            <h3>Babel vs SWC vs Oxc</h3>
-            <p>Rough transform throughput, normalized to Babel = 1×.</p>
-            <div style="max-width: 620px; margin: 1.5rem auto;">
-              <div style="margin-bottom: 0.5rem; color: #0a3d5f; font-weight: 600;">Babel (baseline)</div>
-              <div style="background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-bottom: 1rem;">
-                <div style="width: 12%; background: #f97373; padding: 0.35rem 0.5rem; border-radius: 999px; text-align: right; font-size: 0.8rem;">
-                  1×
-                </div>
-              </div>
-
-              <div style="margin-bottom: 0.5rem; color: #0a3d5f; font-weight: 600;">SWC</div>
-              <div style="background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-bottom: 1rem;">
-                <div style="width: 55%; background: #4fd1ff; padding: 0.35rem 0.5rem; border-radius: 999px; text-align: right; font-size: 0.8rem;">
-                  ~10–20×
-                </div>
-              </div>
-
-              <div style="margin-bottom: 0.5rem; color: #0a3d5f; font-weight: 600;">Oxc</div>
-              <div style="background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden;">
-                <div style="width: 100%; background: #ff4b6a; padding: 0.35rem 0.5rem; border-radius: 999px; text-align: right; font-size: 0.8rem;">
-                  ~30–50×
-                </div>
-              </div>
-            </div>
-            <p style="font-size: 0.7em; opacity: 0.9; margin-top: 0.8rem;">
-              Sources (summarized): SWC “Performance Comparison of SWC and Babel”; DataStation “Benchmarking esbuild, swc, tsc, and babel for React/JSX”;<br />
-              Oxc “Transformer Alpha” and bench-transformer; privatenumber’s minification-benchmarks.
-            </p>
+            <h3>SWC vs Oxc: Mental Model</h3>
+            <ul>
+              <li><strong>SWC</strong>: drop-in <em>&quot;Babel, but fast&quot;</em> compiler that makes your dev/build steps faster today.</li>
+              <li><strong>Oxc</strong>: <em>&quot;tooling engine&quot;</em> that helps other tools be fast (lint, bundle, codemod, analyze).</li>
+              <li>You don&apos;t have to choose one: expect <strong>SWC in your builds</strong> and <strong>Oxc inside your tooling</strong> at the same time.</li>
+            </ul>
           </section>
 
           <section>
-            <h3>Rust Compilers: Trade-offs</h3>
+            <h3>Action Items for Your Stack</h3>
             <ul>
-              <li><strong>No type checking</strong>: SWC and Oxc don’t replace <code>tsc</code>; you still need a type-checking step.</li>
-              <li><strong>Plugin ecosystems</strong>: smaller and less approachable than Babel’s JS plugins, though growing and often enough for common use cases.</li>
-              <li><strong>Native binaries</strong>: bring speed, but also platform quirks (arch/libc issues in CI or containers).</li>
-              <li><strong>Benchmarks</strong>: many results are vendor-run; they’re reproducible but should be treated as indicative, not absolute.</li>
+              <li>If you still run Babel for builds: prefer presets or frameworks that use <strong>SWC</strong> instead.</li>
+              <li>Try <strong>Oxlint</strong> or <strong>Biome</strong> on a side branch to see how Rust-powered lint/format feels.</li>
+              <li>Keep an eye on <strong>Rolldown</strong>, <strong>Rspack</strong>, and <strong>Turbopack</strong>: they&apos;re how you&apos;ll feel SWC/Oxc speed-ups without writing Rust.</li>
             </ul>
           </section>
         </section>
@@ -714,9 +681,8 @@ function load() {
           <section>
             <h3>Rspack: Performance &amp; Fit</h3>
             <ul>
-              <li>In React benchmarks, Rspack with SWC has been roughly <strong>4× faster than webpack(esbuild)</strong> and <strong>~6× faster than Rollup(esbuild)</strong> on synthetic large apps.</li>
-              <li>Rspack’s own 50k-modules benchmark shows dev cold start around <strong>3.8 s vs 31–42 s</strong> for webpack, prod builds around <strong>22 s vs 75–160 s</strong> on the same configs.</li>
-              <li>If you run a big webpack-based SPA with lots of loaders/plugins, <strong>Rspack is your best bet</strong> for a drop-in performance upgrade.</li>
+              <li>On large React apps, vendor benchmarks show Rspack dev cold start and builds can be <strong>several times faster</strong> than webpack on the same configs.</li>
+              <li>If you run a big webpack-based SPA with lots of loaders/plugins, <strong>Rspack is usually your best drop-in performance upgrade</strong>.</li>
             </ul>
           </section>
 
@@ -732,9 +698,16 @@ function load() {
           <section>
             <h3>Rolldown: Features &amp; Extras</h3>
             <ul>
-              <li>Built-in TS/JSX/syntax lowering, Node-style resolution, ESM/CJS interop, <code>define</code>/<code>inject</code>, experimental CSS bundling and minification.</li>
-              <li>Reports roughly <strong>10–30× faster than Rollup</strong> on comparable workloads, with a WASM build that outperforms esbuild’s.</li>
-              <li>Case studies (e.g. PLAID) show Rollup+Terser → Rolldown+Oxc cutting build times from ~1150 ms to ~40 ms (≈97% faster).</li>
+              <li>Single Rust bundler aiming to handle both dev and build in the Vite/Rollup world.</li>
+              <li>Built-in TS/JSX support, Node-style resolution, ESM/CJS interop, <code>define</code>/<code>inject</code>, and evolving CSS bundling/minification.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Rolldown: Real-World Impact</h3>
+            <ul>
+              <li>Vendor benchmarks report <strong>10–30× faster</strong> bundling than Rollup on many workloads.</li>
+              <li>PLAID&apos;s case study: Rollup+Terser → Rolldown+Oxc cut build time from ~1150 ms to ~40 ms (≈97% faster).</li>
             </ul>
           </section>
 
@@ -750,19 +723,19 @@ function load() {
           <section>
             <h3>Turbopack: Dev Experience</h3>
             <ul>
-              <li>Vercel’s benchmarks show cold start on large Next apps dropping from ~35 s (webpack) to ~2 s with Turbopack.</li>
-              <li>HMR updates on huge projects can be up to hundreds of times faster than webpack in vendor benchmarks.</li>
-              <li>Instead of layering Next.js on top of a generic bundler, Turbopack bakes Next’s assumptions into the bundler and uses Rust to make incremental updates feel instant.</li>
+              <li>On large Next apps, Vercel&apos;s benchmarks show dev cold start dropping from tens of seconds with webpack to just a few seconds with Turbopack.</li>
+              <li>HMR updates on huge projects go from &quot;go get coffee&quot; to &quot;nearly instant&quot; in many vendor benchmarks.</li>
+              <li>Because Turbopack bakes in Next&apos;s app router and layouts, it can do very fast incremental updates instead of full rebuilds.</li>
             </ul>
           </section>
 
           <section>
             <h3>Rust Bundlers: How to Choose</h3>
             <ul>
-              <li><strong>Still on webpack</strong>: big webpack SPA with lots of loaders/plugins → <strong>Rspack</strong> is your best bet.</li>
-              <li><strong>On Vite</strong>: stay put—<strong>Rolldown</strong> is being built as Vite’s native bundler, and Evan + the VoidZero team will smooth the migration.</li>
-              <li><strong>On Next.js for work</strong>: Next 16 already defaults to <strong>Turbopack</strong> for dev. Enjoy the speed, and keep some Claude Code or Codex budget handy for sharp edges.</li>
-              <li><strong>Benchmark your own app</strong>: published numbers disagree on exact factors; real gains depend heavily on your project shape and config.</li>
+              <li><strong>Still on webpack?</strong> Big SPA with many loaders/plugins → try <strong>Rspack</strong> as a drop-in upgrade.</li>
+              <li><strong>On Vite?</strong> Stay put — <strong>Rolldown</strong> will arrive under the hood as it matures.</li>
+              <li><strong>On Next.js?</strong> Next 16 already defaults to <strong>Turbopack</strong> for dev — just use the current defaults.</li>
+              <li><strong>Always benchmark your own app</strong>: real gains depend on your graph, plugins, and CI setup.</li>
             </ul>
           </section>
         </section>
@@ -772,45 +745,53 @@ function load() {
           <section>
             <h2>Rust Linters &amp; Formatters</h2>
             <ul>
-              <li>Rust tools aiming to replace the ESLint + Prettier combo with faster, more integrated workflows.</li>
-              <li>Two important efforts: <strong>Biome</strong> as an all‑in‑one tool, and <strong>Oxc</strong> as the engine behind future lint/format tooling.</li>
+              <li>Rust tools aiming to replace the classic <strong>ESLint + Prettier</strong> combo with faster, simpler workflows.</li>
+              <li>Two big players for JS/TS today: <strong>Biome</strong> (all‑in‑one tool) and <strong>Oxc‑based</strong> linters/formatters (like Oxlint).</li>
             </ul>
           </section>
 
           <section>
-            <h3>Biome: Rome Reborn in Rust</h3>
+            <h3>Biome in One Minute</h3>
             <ul>
-              <li><strong>Origin</strong>: fork and rewrite of the Rome project in Rust, with a singular focus on speed and reliability.</li>
-              <li><strong>Performance</strong>: Biome’s own “Prettier challenge” benchmarks show it beating Prettier on both speed and resource usage on real‑world codebases.</li>
-              <li><strong>Scope</strong>: single binary that formats, lints, and organizes imports for JS/TS (and more) with one config instead of “ESLint + Prettier + plugins”.</li>
+              <li>All‑in‑one Rust tool that <strong>lints, formats, and organizes imports</strong> for JS/TS (and more) with a single config.</li>
+              <li>Designed as a modern successor to ESLint + Prettier + plugins, with a much faster Rust core.</li>
+              <li>Biome&apos;s own benchmarks show noticeable wins over Prettier/ESLint on real projects, especially in CI.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Biome: Frameworks &amp; Recommendation</h3>
+            <h3>Where Biome Fits Your Stack</h3>
             <ul>
-              <li><strong>Framework support</strong>: recent releases (e.g. Biome v2.3) added first‑class support for Vue, Astro, and Svelte on top of React/TS/Node.</li>
-              <li><strong>Try it once</strong>: if you’ve never used Biome, running it once over an existing project is an easy way to feel a Rust‑powered lint+format pipeline.</li>
+              <li>Great fit if you want <strong>one tool, one config</strong> instead of wiring ESLint + TS‑ESLint + Prettier + plugins.</li>
+              <li>Works well for “lint + format on save” without your editor feeling sluggish.</li>
+              <li>If you rely on niche ESLint rules, you can still keep ESLint for a subset and let Biome handle the rest.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Oxc: Engine for Future Linters &amp; Formatters</h3>
+            <h3>Oxc‑Powered Linters (Oxlint)</h3>
             <ul>
-              <li><strong>Oxc</strong> is a Rust compiler/tooling platform that also powers experimental linters and formatters (for example, <em>oxlint</em> and Oxc‑based formatters).</li>
-              <li><strong>Design goals</strong>: very fast parsing and transforms, small binary size, and modern JS/TS support suitable for editor‑on‑save workflows.</li>
-              <li><strong>Benchmarks</strong>: Oxc‑based tools often show tens‑of‑times speedups over Babel/ESLint/Prettier stacks on transform and minification workloads.</li>
-              <li><strong>Role</strong>: think of Oxc as the Rust “engine room” that future lint/format tools (including Biome integrations) can build on.</li>
+              <li><strong>Oxlint</strong> is a fast linter built on the Oxc engine for JS/TS/React code.</li>
+              <li>Used in production at teams like <strong>Shopify</strong> (front‑end platform on the admin console) and thousands of early adopters to cut CI time and cost.</li>
+              <li>Oxc is also under the hood in tools like Rolldown, Turborepo, Nuxt, Biome, and Tauri.</li>
             </ul>
           </section>
 
           <section>
-            <h3>Rust Linters &amp; Formatters: Where They Shine</h3>
+            <h3>Rust vs ESLint/Prettier – Mental Model</h3>
             <ul>
-              <li>Running lint + format on every save or pre‑commit without making editors feel sluggish.</li>
-              <li>Large monorepos where ESLint + Prettier currently dominate CI time.</li>
-              <li>Teams that want “one tool, one config” instead of wiring ESLint rules and Prettier plugins together by hand.</li>
-              <li>But: if you rely heavily on niche ESLint rules or plugins, you may still need ESLint in the loop for now.</li>
+              <li><strong>ESLint + Prettier</strong>: deeply configurable, huge plugin ecosystem, but slow on large monorepos.</li>
+              <li><strong>Biome / Oxlint</strong>: fewer moving parts and smaller rule sets today, but <strong>much faster</strong> and easier to run on every save and every CI run.</li>
+              <li>Realistic near‑term: keep ESLint where you must, use Rust tools for the majority of checks and formatting.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Action Items: Lint &amp; Format</h3>
+            <ul>
+              <li>Pick one medium‑size repo and add <strong>Biome</strong> or <strong>Oxlint</strong> alongside your existing ESLint/Prettier setup.</li>
+              <li>Run both in CI for a week and compare runtime and flakiness.</li>
+              <li>If the experience is good, move “format on save” and most lint rules to the Rust tool and keep only the ESLint rules/plugins you truly depend on.</li>
             </ul>
           </section>
         </section>
@@ -948,6 +929,43 @@ validations / day
             <li>You do not have to write Rust to benefit from it.</li>
             <li>What matters: understanding the tradeoffs and choosing the right stack.</li>
           </ul>
+        </section>
+
+        <!-- 10. Other ecosystems -->
+        <section>
+          <section>
+            <h2>Other Fast Tooling (Non-Rust)</h2>
+            <ul>
+              <li>Rust isn&apos;t the only game in town for fast JS tooling.</li>
+              <li>There are mature, battle-tested tools built in <strong>Go</strong> and <strong>JavaScript</strong> too.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>esbuild (Go)</h3>
+            <ul>
+              <li>Written in <strong>Go</strong>; one of the first &quot;blazing fast&quot; JS/TS bundlers and minifiers.</li>
+              <li>Powers things like Vite&apos;s dependency pre-bundling and many existing build pipelines.</li>
+              <li>Still a great choice for small tools, CLIs, and projects that don&apos;t need Rust today.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Rollup, Webpack &amp; Friends (JS)</h3>
+            <ul>
+              <li><strong>Rollup</strong> and <strong>webpack</strong> are JavaScript bundlers with huge ecosystems and plugin libraries.</li>
+              <li>They remain the backbone of many large production apps, even as Rust and Go tools appear.</li>
+              <li>Rust tools like <strong>Rolldown</strong> and <strong>Rspack</strong> are often designed as faster, mostly-compatible successors.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Takeaway</h3>
+            <ul>
+              <li>The &quot;fast tooling&quot; story isn&apos;t Rust vs Go vs JS; it&apos;s about choosing the right engine for your stack.</li>
+              <li>Rust gives you new options, not an obligation to rewrite everything.</li>
+            </ul>
+          </section>
         </section>
       </div>
     </div>
