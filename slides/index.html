@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Rust Tooling in Modern JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Reveal.js via CDN to keep setup simple -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+
+    <style>
+      body {
+        background: radial-gradient(circle at top left, #4fd1ff 0, #0b1724 40%, #200016 100%);
+      }
+
+      .reveal {
+        color: #f5f5f5;
+      }
+
+      .reveal section h1,
+      .reveal section h2,
+      .reveal section h3 {
+        text-transform: none;
+        letter-spacing: 0.03em;
+      }
+
+      .reveal section h1 {
+        color: #ff4b6a;
+        text-shadow: 0 0 18px rgba(255, 75, 106, 0.5);
+      }
+
+      .reveal section h2,
+      .reveal section h3 {
+        color: #4fd1ff;
+        text-shadow: 0 0 14px rgba(79, 209, 255, 0.4);
+      }
+
+      .reveal p,
+      .reveal li {
+        color: #0a3d5f;
+      }
+
+      .reveal a {
+        color: #ff4b6a;
+      }
+
+      .reveal img {
+        filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
+      }
+
+      .hero-blackhole {
+        position: relative;
+        width: 100%;
+        max-width: 900px;
+        height: 380px;
+        margin: 2.5rem auto 0;
+      }
+
+      .code-row {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 1.2rem;
+      }
+
+      .code-row pre {
+        flex: 1 1 0;
+      }
+
+      .tool-heading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+
+      .reveal pre {
+        box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55);
+        border-radius: 14px;
+        overflow: hidden;
+        background: #050b16;
+      }
+
+      .reveal pre code {
+        font-size: 0.8em;
+        line-height: 1.5;
+        text-shadow: none;
+        padding: 1rem 1.25rem;
+        display: block;
+      }
+
+      .tooling-line {
+        font-size: 1.05rem;
+        margin: 0.6rem 0;
+        color: #0a3d5f;
+      }
+
+      .tooling-kind {
+        color: #ff4b6a;
+        font-weight: 600;
+      }
+
+      .hero-blackhole-core {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, #000 0, #050518 35%, rgba(0, 0, 0, 0) 75%);
+        box-shadow:
+          0 0 40px rgba(0, 0, 0, 0.9),
+          0 0 80px rgba(79, 209, 255, 0.8),
+          0 0 120px rgba(255, 75, 106, 0.6);
+      }
+
+      .hero-logo {
+        position: absolute;
+        width: 80px;
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform-origin: center center;
+      }
+
+      .hero-logo--swc {
+        animation: hero-orbit-swc 38s linear infinite;
+      }
+
+      .hero-logo--babel {
+        animation: hero-orbit-babel 26s linear infinite reverse;
+      }
+
+      .hero-logo--webpack {
+        animation: hero-orbit-webpack 44s linear infinite;
+      }
+
+      .hero-logo--rollup {
+        animation: hero-orbit-rollup 32s linear infinite reverse;
+      }
+
+      .hero-logo--vite {
+        animation: hero-orbit-vite 30s linear infinite;
+      }
+
+      .hero-logo--turbo {
+        animation: hero-orbit-turbo 52s linear infinite reverse;
+      }
+
+      .hero-logo--rolldown {
+        animation: hero-orbit-rolldown 48s linear infinite;
+      }
+
+      .hero-logo--oxc {
+        animation: hero-orbit-oxc 34s linear infinite reverse;
+      }
+
+      .hero-logo--biome {
+        animation: hero-orbit-biome 40s linear infinite;
+      }
+
+      @keyframes hero-orbit-swc {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(320px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(320px);
+        }
+      }
+
+      @keyframes hero-orbit-babel {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(260px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(260px);
+        }
+      }
+
+      @keyframes hero-orbit-webpack {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(360px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(360px);
+        }
+      }
+
+      @keyframes hero-orbit-rollup {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(220px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(220px);
+        }
+      }
+
+      @keyframes hero-orbit-vite {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(280px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(280px);
+        }
+      }
+
+      @keyframes hero-orbit-turbo {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(340px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(340px);
+        }
+      }
+
+      @keyframes hero-orbit-rolldown {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(240px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(240px);
+        }
+      }
+
+      @keyframes hero-orbit-oxc {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(200px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(200px);
+        }
+      }
+
+      @keyframes hero-orbit-biome {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(260px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(260px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-blackhole {
+          height: 260px;
+        }
+
+        .hero-blackhole-core {
+          width: 160px;
+          height: 160px;
+        }
+
+        .hero-logo {
+          width: 56px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 1. Intro -->
+        <section>
+          <div class="hero-blackhole">
+            <div class="hero-blackhole-core"></div>
+            <img
+              class="hero-logo hero-logo--swc"
+              src="https://swc.rs/logo.png"
+              alt="SWC logo"
+            />
+            <img
+              class="hero-logo hero-logo--babel"
+              src="https://babeljs.io/img/babel.svg"
+              alt="Babel logo"
+            />
+            <img
+              class="hero-logo hero-logo--webpack"
+              src="https://webpack.js.org/site-logo.c0e60df418e04f58.svg"
+              alt="Webpack logo"
+            />
+            <img
+              class="hero-logo hero-logo--rollup"
+              src="https://rollupjs.org/rollup-logo.svg"
+              alt="Rollup logo"
+            />
+            <img
+              class="hero-logo hero-logo--vite"
+              src="https://vitejs.dev/logo.svg"
+              alt="Vite logo"
+            />
+            <img
+              class="hero-logo hero-logo--turbo"
+              src="https://turborepo.com/images/docs/repo/repo-hero-logo-dark.svg"
+              alt="Turborepo logo"
+            />
+            <img
+              class="hero-logo hero-logo--rolldown"
+              src="https://rolldown.rs/rolldown-round.svg"
+              alt="Rolldown logo"
+            />
+            <img
+              class="hero-logo hero-logo--oxc"
+              src="https://cdn.jsdelivr.net/gh/oxc-project/oxc-assets/round.svg"
+              alt="Oxc logo"
+            />
+            <img
+              class="hero-logo hero-logo--biome"
+              src="https://biomejs.dev/_astro/logo-dark-transparent.Bwi2A1en.svg"
+              alt="Biome logo"
+            />
+          </div>
+        </section>
+
+        <!-- 2. Title -->
+        <section>
+          <h1>Oxidize JavaScript Toolchain</h1>
+        </section>
+
+        <!-- 3. What is tooling? -->
+        <section>
+          <section>
+            <h2>What Do We Mean by “Tooling”?</h2>
+            <p class="tooling-line">
+              <span class="tooling-kind">Transpilers</span> reshape source code to run on specific runtimes or browsers.
+            </p>
+            <p class="tooling-line">
+              <span class="tooling-kind">Bundlers</span> stitch many modules and assets into a few deployable bundles.
+            </p>
+            <p class="tooling-line">
+              <span class="tooling-kind">Linters</span> enforce correctness, catch bugs, and guide best practices.
+            </p>
+            <p class="tooling-line">
+              <span class="tooling-kind">Formatters</span> keep code visually consistent and easy to read.
+            </p>
+          </section>
+          <section>
+            <h3>Transpilers: Modern JS to Compatible JS</h3>
+            <p>From ESNext/TS/JSX to browser-compatible JavaScript.</p>
+<pre><code class="language-javascript" data-trim>
+// Source (ESNext)
+const greeting = `Hello, ${user.name ?? "friend"}!`;
+</code></pre>
+<pre><code class="language-javascript" data-trim>
+// Output (ES5-ish, simplified)
+var name = user && user.name ? user.name : "friend";
+var greeting = "Hello, " + name + "!";
+</code></pre>
+          </section>
+          <section>
+            <h3>Transpilers: JSX to JavaScript</h3>
+            <p>Turn JSX syntax into plain JavaScript function calls.</p>
+<pre><code class="language-javascript" data-trim>
+// Source (JSX)
+function Button() {
+  return &lt;button className="primary"&gt;Click me&lt;/button&gt;;
+}
+</code></pre>
+<pre><code class="language-javascript" data-trim>
+// Output (JavaScript)
+function Button() {
+  return React.createElement(
+    "button",
+    { className: "primary" },
+    "Click me",
+  );
+}
+</code></pre>
+            <p style="margin-top: 1.2rem; font-size: 0.9em;">
+              Live demo idea: try a Rust-based transpiler playground such as
+              <a href="https://swc.rs/playground" target="_blank" rel="noreferrer">swc.rs/playground</a>.
+            </p>
+          </section>
+        </section>
+
+        <!-- 4. Why Rust tooling -->
+        <section>
+          <section>
+            <h2>Why Do We Need Rust Tooling?</h2>
+          </section>
+          <section>
+            <h2>Why Do We Need Rust Tooling?</h2>
+            <img
+              src="./rewrite-everything-in-rust.png"
+              alt="Rewrite it in Rust bell-curve meme"
+              style="max-width: 380px; height: auto; margin: 2rem auto 0;"
+            />
+            <p style="margin-top: 1.2rem; font-size: 0.9em; opacity: 0.9;">
+              People are just bored.
+            </p>
+          </section>
+          <section>
+            <h2>Why Do We Actually Need Rust Tooling?</h2>
+            <ul>
+              <li>Slow cold starts and HMR in large apps.</li>
+              <li>Long CI builds and expensive pipelines.</li>
+              <li>Complex, fragile configurations in legacy toolchains.</li>
+              <li>New Rust tools offer 10–25× faster builds.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 5. Old World: JS-written tooling -->
+        <section>
+          <section>
+            <h2>The Old World: JS Tooling</h2>
+            <ul>
+              <li>Babel, Webpack, Rollup as the default stack.</li>
+              <li>Node.js, single-threaded, plugin-heavy architectures.</li>
+              <li>Designed for correctness and flexibility, not raw speed.</li>
+            </ul>
+          </section>
+          <section>
+            <img
+              src="https://babeljs.io/img/babel.svg"
+              alt="Babel logo"
+              style="max-width: 140px; height: auto; margin: 0 0 1rem 0;"
+            />
+            <ul>
+              <li><strong>2014</strong>: launched as <em>6to5</em>, compiling ES6 down to ES5 so new syntax could run in old browsers.</li>
+              <li><strong>2015</strong>: renamed <strong>Babel</strong> and repositioned as a general JS compiler platform with presets, plugins, and AST tooling.</li>
+              <li><strong>2015–2017</strong>: became the backbone of “modern JS” stacks, handling ESNext, JSX, and later TypeScript/Flow in almost every webpack-based project.</li>
+              <li><strong>Today</strong>: still the most feature-complete and extensible transpiler when you need full spec coverage or custom transforms, even as faster Rust/Go tools appear.</li>
+            </ul>
+          </section>
+          <section>
+            <img
+              src="./long-waiting-webpack.png"
+              alt="Me when I wait for Webpack to build meme"
+              style="max-width: 80%; height: auto;"
+            />
+          </section>
+          <section>
+            <div style="display: flex; gap: 2rem; align-items: center; justify-content: center; margin: 0 0 1.5rem 0;">
+              <img
+                src="https://webpack.js.org/site-logo.c0e60df418e04f58.svg"
+                alt="Webpack logo"
+                style="
+                  max-width: 220px;
+                  height: auto;
+                  padding: 0.75rem 1.75rem;
+                  border-radius: 999px;
+                  background: rgba(5, 15, 30, 0.9);
+                  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+                "
+              />
+            </div>
+            <ul>
+              <li><strong>2014</strong>: introduced as a JS module bundler that turns <code>require</code>/<code>import</code> graphs into browser-ready bundles.</li>
+              <li><strong>2015–2016</strong>: rode the React and SPA wave; “everything is a module” plus dev server and HMR made it the default for complex front‑ends.</li>
+              <li><strong>2016–2017</strong>: loader/plugin ecosystem exploded (babel-loader, style-loader, file-loader, etc.); many CLIs embed webpack under the hood.</li>
+              <li><strong>Today</strong>: still entrenched in large and long‑lived apps, but known for slow cold builds, sluggish HMR, and configuration complexity at scale.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>ESLint &amp; Prettier</h3>
+            <ul>
+              <li><strong>ESLint (2013)</strong>: created by Nicholas Zakas as a configurable, plugin‑based alternative to JSLint/JSHint where every rule is pluggable JS over an AST.</li>
+              <li><strong>2014–2016</strong>: plugin configs (Airbnb, StandardJS, framework presets) turned ESLint into the hub for code style and best‑practice rules; it joined the JS/OpenJS Foundation as core infra.</li>
+              <li><strong>Today</strong>: virtually every serious JS/TS project wires ESLint into editors and CI; it remains the de‑facto standard linter across the ecosystem.</li>
+              <li><strong>Prettier (2016–2017)</strong>: launched as an opinionated formatter that parses code to an AST and prints it back with fixed layout rules to end style bikeshedding.</li>
+              <li><strong>2017–2020s</strong>: rapidly adopted in editors and CLIs, expanded beyond JS to TS, CSS, JSON, GraphQL, Markdown, HTML; the common pattern is ESLint for correctness and Prettier for layout, often using <code>eslint-config-prettier</code>/<code>eslint-plugin-prettier</code> to keep them in sync.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 6. Rust transpilers & compilers -->
+        <section>
+          <section>
+            <h2>Rust Transpilers &amp; Compilers</h2>
+            <ul>
+              <li>Rust replaces Babel/tsc at the “compile JS/TS” layer with much faster engines.</li>
+              <li>Two key players today: <strong>SWC</strong> and <strong>Oxc</strong>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <div class="tool-heading">
+              <img
+                src="https://swc.rs/logo.png"
+                alt="SWC logo"
+                style="max-width: 120px; height: auto; margin: 0;"
+              />
+              <h3>SWC: What It Is</h3>
+            </div>
+            <ul>
+              <li><strong>Speedy Web Compiler</strong>: “Babel written in Rust”, an embeddable JS/TS compiler core.</li>
+              <li><strong>Role</strong>: parses JS/TS/JSX, runs built‑in transforms, and emits JS + source maps; exposed to Node via native bindings.</li>
+              <li><strong>Goal</strong>: be the low-level engine used by frameworks and bundlers rather than a CLI you use directly.</li>
+              <li><strong>Performance</strong>: commonly 10–20× faster than Babel in real projects, even more in microbenchmarks.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>SWC in the Ecosystem</h3>
+            <ul>
+              <li><strong>Next.js</strong>: SWC is the default compiler and minifier, replacing Babel + Terser in most apps.</li>
+              <li><strong>Deno</strong>: uses SWC internally for JS/TS compilation.</li>
+              <li><strong>Parcel 2, Rspack/Rsbuild, Jest</strong>: SWC powers fast transforms via <code>@swc/core</code> and <code>@swc/jest</code>.</li>
+              <li><strong>Usage pattern</strong>: teams often run <code>tsc --noEmit</code> for type checking and SWC for emitting JS.</li>
+              <li><strong>Limits</strong>: no built-in type checking; plugin ecosystem is smaller than Babel’s.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Oxc: The Next Rust Engine</h3>
+            <ul>
+              <li><strong>Oxc project</strong>: a newer Rust-based compiler platform, developed to push beyond SWC in speed and ergonomics.</li>
+              <li><strong>Goals</strong>: provide a very fast JS/TS transformer, isolated <code>.d.ts</code> emit, and minification, acting as the core for future tools (e.g. VoidZero’s stack, dprint, Biome integrations).</li>
+              <li><strong>Design</strong>: smaller packages, lower memory usage, and APIs designed from day one to support modern React/TS workflows.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Babel vs SWC vs Oxc</h3>
+            <p>Rough transform throughput, normalized to Babel = 1×.</p>
+            <div style="max-width: 620px; margin: 1.5rem auto;">
+              <div style="margin-bottom: 0.5rem; color: #0a3d5f; font-weight: 600;">Babel (baseline)</div>
+              <div style="background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-bottom: 1rem;">
+                <div style="width: 12%; background: #f97373; padding: 0.35rem 0.5rem; border-radius: 999px; text-align: right; font-size: 0.8rem;">
+                  1×
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.5rem; color: #0a3d5f; font-weight: 600;">SWC</div>
+              <div style="background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-bottom: 1rem;">
+                <div style="width: 55%; background: #4fd1ff; padding: 0.35rem 0.5rem; border-radius: 999px; text-align: right; font-size: 0.8rem;">
+                  ~10–20×
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.5rem; color: #0a3d5f; font-weight: 600;">Oxc</div>
+              <div style="background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden;">
+                <div style="width: 100%; background: #ff4b6a; padding: 0.35rem 0.5rem; border-radius: 999px; text-align: right; font-size: 0.8rem;">
+                  ~30–50×
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 0.7em; opacity: 0.9; margin-top: 0.8rem;">
+              Sources (summarized): SWC “Performance Comparison of SWC and Babel”; DataStation “Benchmarking esbuild, swc, tsc, and babel for React/JSX”;<br />
+              Oxc “Transformer Alpha” and bench-transformer; privatenumber’s minification-benchmarks.
+            </p>
+          </section>
+
+          <section>
+            <h3>Rust Compilers: Trade-offs</h3>
+            <ul>
+              <li><strong>No type checking</strong>: SWC and Oxc don’t replace <code>tsc</code>; you still need a type-checking step.</li>
+              <li><strong>Plugin ecosystems</strong>: smaller and less approachable than Babel’s JS plugins, though growing and often enough for common use cases.</li>
+              <li><strong>Native binaries</strong>: bring speed, but also platform quirks (arch/libc issues in CI or containers).</li>
+              <li><strong>Benchmarks</strong>: many results are vendor-run; they’re reproducible but should be treated as indicative, not absolute.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 5. Vercel vs Vite ecosystems -->
+        <section>
+          <section>
+            <h2>Two Rust Tooling Ecosystems</h2>
+            <ul>
+              <li>Vercel-backed: SWC, Turbopack, Turborepo, tightly integrated with Next.js.</li>
+              <li>Vite-backed: Vite, Rolldown, and tools building on Oxc.</li>
+              <li>Shared goals: speed and DX; different scopes and philosophies.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Vercel Stack</h3>
+            <ul>
+              <li>Next.js app framework as the entry point.</li>
+              <li>SWC for compilation; Turbopack for bundling and dev server.</li>
+              <li>Turborepo for monorepo orchestration and remote caching.</li>
+              <li>End-to-end path: dev, build, and deploy on Vercel.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Vite Stack</h3>
+            <ul>
+              <li>Vite as dev server and build orchestrator.</li>
+              <li>Dev mode: ESM-based, esbuild-powered fast HMR.</li>
+              <li>Prod mode: Rollup today, Rolldown tomorrow.</li>
+              <li>Framework-agnostic: Vue, React, Svelte, Solid, and more.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>DX and Tradeoffs</h3>
+            <ul>
+              <li>Vercel: opinionated, integrated stack optimized for Next.js teams.</li>
+              <li>Vite: flexible toolchain suitable for diverse frameworks.</li>
+              <li>Vercel: smoother &quot;one platform&quot; experience; stronger coupling.</li>
+              <li>Vite: more choices and combinability; requires infra decisions.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Choosing a Path</h3>
+            <ul>
+              <li>Heavy Next.js and Vercel user: lean into SWC, Turbopack, Turborepo.</li>
+              <li>Multi-framework or micro-frontend: Vite + Rolldown + emerging Oxc tools.</li>
+              <li>Linting and formatting: consider Biome regardless of build stack.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 6. Shared architecture patterns -->
+        <section>
+          <section>
+            <h2>Why Rust Fits JS Tooling</h2>
+            <ul>
+              <li>Memory safety without GC pauses.</li>
+              <li>Predictable performance and fine-grained control over resources.</li>
+              <li>Easy to exploit multi-core CPUs for parallel work.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Architecture Patterns</h3>
+            <ul>
+              <li>Parse once, reuse AST across multiple tools.</li>
+              <li>Parallel transforms across files and modules.</li>
+              <li>Incremental builds and aggressive caching for dev and CI.</li>
+              <li>Smaller binaries and stable long-running processes.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 7. Limitations and tradeoffs -->
+        <section>
+          <section>
+            <h2>Limitations and Tradeoffs</h2>
+            <ul>
+              <li>Plugin ecosystems still catching up with legacy tools.</li>
+              <li>Incomplete coverage of bleeding-edge proposals and niche transforms.</li>
+              <li>Migration costs: configs, build scripts, CI pipelines.</li>
+              <li>Type checking still relies on tsc or language servers.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>When Not to Migrate Yet</h3>
+            <ul>
+              <li>Stable, medium-size apps with acceptable build times.</li>
+              <li>Heavy reliance on custom Babel or Webpack plugins.</li>
+              <li>Teams without capacity to rework infra and CI.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 8. Practical migration paths -->
+        <section>
+          <section>
+            <h2>Practical Migration Paths</h2>
+            <ul>
+              <li>Step 1: swap Babel for SWC where possible.</li>
+              <li>Step 2: introduce Biome for lint/format in a subset of the repo.</li>
+              <li>Step 3: adopt Turborepo or similar for monorepo and CI performance.</li>
+              <li>Step 4: experiment with Turbopack or Vite + Rolldown on new services.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Measuring Impact</h3>
+            <ul>
+              <li>Track cold start, HMR latency, and full build time.</li>
+              <li>Measure CI duration and flakiness before and after.</li>
+              <li>Monitor developer satisfaction and iteration speed.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 9. Closing -->
+        <section>
+          <h2>Rust Tooling and the Future of JS</h2>
+          <ul>
+            <li>From &quot;JS everywhere&quot; to &quot;Rust under the hood&quot; for tooling.</li>
+            <li>Order-of-magnitude speedups unlock new workflows and scale.</li>
+            <li>You do not have to write Rust to benefit from it.</li>
+            <li>What matters: understanding the tradeoffs and choosing the right stack.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        controls: true,
+        progress: true,
+        plugins: [RevealHighlight],
+      });
+    </script>
+  </body>
+</html>

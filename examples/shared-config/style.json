@@ -1,0 +1,19 @@
+{
+  "printWidth": 100,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "useTabs": false,
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "importOrder": ["^react$", "^next(.*)$", "^@/(.*)$", "^[a-zA-Z0-9_.-]+$", "^\./", "^\.\./"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "rules": {
+    "no-unused-vars": true,
+    "no-console": ["warn"],
+    "eqeqeq": true
+  }
+}
