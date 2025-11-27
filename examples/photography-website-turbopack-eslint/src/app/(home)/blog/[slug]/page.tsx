@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { HydrationBoundary } from '@tanstack/react-query';
 import { dehydrate } from '@tanstack/react-query';
 import { Metadata } from 'next';

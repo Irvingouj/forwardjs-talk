@@ -6,6 +6,8 @@ import { BlogView, BlogViewLoadingStatus } from '@/modules/blog/ui/views/blog-vi
 import { trpc } from '@/trpc/server';
 import { getQueryClient } from '@/trpc/server';
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: 'Blog',
   description: 'Blog',
@@ -13,7 +15,9 @@ export const metadata = {
 
 const page = () => {
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(trpc.blog.getMany.queryOptions());
+  if (!process.env.CI) {
+    void queryClient.prefetchQuery(trpc.blog.getMany.queryOptions());
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

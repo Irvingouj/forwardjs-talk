@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { Suspense } from "react";

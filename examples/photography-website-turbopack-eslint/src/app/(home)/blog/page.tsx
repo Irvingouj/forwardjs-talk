@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -13,7 +14,9 @@ export const metadata = {
 
 const page = () => {
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(trpc.blog.getMany.queryOptions());
+  if (!process.env.CI) {
+    void queryClient.prefetchQuery(trpc.blog.getMany.queryOptions());
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

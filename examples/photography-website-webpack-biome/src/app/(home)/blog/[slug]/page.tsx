@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BlogSlugView } from "@/modules/blog/ui/views/blog-slug-view";
+export const dynamic = "force-dynamic";
 import { getQueryClient, trpc } from "@/trpc/server";
 
 type Props = {

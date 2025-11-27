@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
+export const dynamic = "force-dynamic";
 import { BlogSlugView } from '@/modules/blog/ui/views/blog-slug-view';
 import { getQueryClient } from '@/trpc/server';
 import { trpc } from '@/trpc/server';
