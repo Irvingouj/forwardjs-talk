@@ -479,7 +479,58 @@ function Button() {
           </section>
         </section>
 
-        <!-- 6. Rust transpilers & compilers -->
+        <!-- 6. Rust bundlers & dev servers -->
+        <section>
+          <section>
+            <h2>Rust Bundlers &amp; Dev Servers</h2>
+            <ul>
+              <li>Rust bundlers aim to replace webpack/Rollup at the “bundle &amp; serve” layer.</li>
+              <li>Key players today: <strong>Rspack</strong>, <strong>Rolldown</strong>, and <strong>Turbopack</strong> (plus Bun/esbuild around them).</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Rspack: Turbocharged Webpack</h3>
+            <ul>
+              <li>Rust-powered bundler with largely webpack-compatible config; intended as a drop-in upgrade for many webpack projects.</li>
+              <li>In independent React benchmarks, Rspack with SWC has been about 4× faster than webpack(esbuild) and ~6× faster than Rollup(esbuild) on synthetic large apps.</li>
+              <li>Rspack’s own “50k modules” benchmark shows dev cold start around 3.8 s vs 31–42 s for webpack(SWC/Babel), and prod builds ~3–7× faster than webpack on the same config.</li>
+              <li>Net effect: for teams living in webpack land, Rspack can drastically cut both initial build and HMR times without rewriting configs from scratch.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Rolldown: Rust Rollup for Vite</h3>
+            <ul>
+              <li>Rust implementation inspired by Rollup, designed to become Vite’s future production bundler.</li>
+              <li>Rolldown’s own large React app benchmark (~19k modules) shows Rolldown roughly 2–3× faster than Rspack/Rsbuild and on par with esbuild in build time.</li>
+              <li>Case studies like PLAID’s library build report cutting Rollup+Terser builds from ~1150 ms down to ~40 ms by switching to Rolldown + Oxc (≈97% faster).</li>
+              <li>In practice: if you are in the Vite ecosystem, Rolldown is positioned as the long-term answer for fast, large production bundles.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Turbopack: Next.js Dev Bundler</h3>
+            <ul>
+              <li>Rust bundler from webpack’s original author, integrated as the default dev bundler in modern Next.js versions.</li>
+              <li>Vercel’s launch benchmarks on large Next apps report cold-start dev boot dropping from ~35 s (webpack) to ~2 s (Turbopack), and HMR updates up to hundreds of times faster on huge projects.</li>
+              <li>Third-party HMR benches (Vite vs Next+Turbopack vs Parcel) show more modest gaps versus Vite, but still consistently large wins over legacy webpack.</li>
+              <li>For most Next.js users, adopting Turbopack is effectively automatic: upgrade the framework and you get a much faster dev bundler.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Rust Bundlers: Rough Ordering &amp; Caveats</h3>
+            <ul>
+              <li><strong>Rspack</strong>: huge win over webpack on webpack-style configs (often several times faster in dev and prod, especially on big apps).</li>
+              <li><strong>Rolldown</strong>: generally faster than Rspack in its own large-app benchmarks and significantly faster than Rollup in case studies; designed for Vite’s prod builds.</li>
+              <li><strong>Turbopack</strong>: extremely fast dev loops for large Next.js apps; best choice if you live in the Next/Vercel ecosystem.</li>
+              <li><strong>But</strong>: different benchmarks disagree on exact factors; numbers depend heavily on project shape and config. Treat the ordering as a ballpark, and benchmark your own workloads when choosing.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 7. Rust transpilers & compilers -->
         <section>
           <section>
             <h2>Rust Transpilers &amp; Compilers</h2>
@@ -568,7 +619,7 @@ function Button() {
           </section>
         </section>
 
-        <!-- 5. Vercel vs Vite ecosystems -->
+        <!-- 8. Vercel vs Vite ecosystems -->
         <section>
           <section>
             <h2>Two Rust Tooling Ecosystems</h2>

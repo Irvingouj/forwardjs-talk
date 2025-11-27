@@ -1,0 +1,70 @@
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { ImageOff } from "lucide-react";
+// UI Components
+import Link from "next/link";
+import BlurImage from "@/components/blur-image";
+import { EmptyState } from "@/components/empty-state";
+import Carousel from "@/components/photo-carousel";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { keyToImage } from "@/lib/keyToImage";
+import { useTRPC } from "@/trpc/client";
+
+export const SliderView = () => {
+	const trpc = useTRPC();
+	const { data: photos } = useSuspenseQuery(
+		trpc.home.getManyLikePhotos.queryOptions({ limit: 10 }),
+	);
+
+	if (photos.length === 0) {
+		return (
+			<EmptyState
+				icon={<ImageOff className="h-12 w-12" />}
+				title="No photos yet"
+				description="Upload some photos and like your favorites to get started"
+				action={
+					<Button asChild>
+						<Link href="/dashboard/photos">Go to Dashboard</Link>
+					</Button>
+				}
+				height="h-full"
+			/>
+		);
+	}
+
+	return (
+		<Carousel
+			className="absolute top-0 left-0 w-full h-full rounded-xl"
+			containerClassName="h-full"
+		>
+			{photos.map((photo, index) => {
+				const shouldPreload = index < 1;
+
+				return (
+					<div key={photo.id} className="flex-[0_0_100%] h-full relative">
+						<BlurImage
+							src={keyToImage(photo.url)}
+							alt={photo.title}
+							fill
+							sizes="75vw"
+							priority={shouldPreload}
+							loading={shouldPreload ? "eager" : "lazy"}
+							blurhash={photo.blurData}
+							className="w-full h-full object-cover"
+						/>
+					</div>
+				);
+			})}
+		</Carousel>
+	);
+};
+
+export const SliderViewLoadingStatus = () => {
+	return (
+		<div className="w-full lg:w-1/2 h-[70vh] lg:fixed lg:top-0 lg:left-0 lg:h-screen p-0 lg:p-3 rounded-xl">
+			<Skeleton className="w-full h-full" />
+		</div>
+	);
+};

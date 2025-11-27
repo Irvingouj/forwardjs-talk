@@ -1,0 +1,154 @@
+🧹 Cleaning .next directory...
+🔨 Building...
+
+
+> photography-website@2.1.0 build
+> next build
+
+   ▲ Next.js 16.0.0 (Turbopack)
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 10.3s
+   Running TypeScript ...
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15) in 1352.8ms
+   Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/[...all]
+├ ƒ /api/trpc/[trpc]
+├ ○ /blog
+├ ƒ /blog/[slug]
+├ ƒ /dashboard
+├ ƒ /dashboard/cities
+├ ƒ /dashboard/cities/[city]
+├ ƒ /dashboard/photos
+├ ƒ /dashboard/photos/[id]
+├ ƒ /dashboard/posts
+├ ƒ /dashboard/posts/[slug]
+├ ƒ /dashboard/posts/new
+├ ƒ /dashboard/profile
+├ ○ /discover
+├ ƒ /sign-in
+├ ○ /travel
+└ ƒ /travel/[city]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+⏱️  Build completed in: 20.414105000s
+
+🔍 Running code quality checks...
+  
+  i See MDN web docs for more details.
+  
+  i Consider replacing the unknown type selector with valid one.
+  
+
+Skipped 45 suggested fixes.
+If you wish to apply the suggested (unsafe) fixes, use the command biome check --write --unsafe
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 149.
+Checked 276 files in 106ms. No fixes applied.
+Found 100 errors.
+Found 44 warnings.
+Found 25 infos.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while applying fixes.
+  
+
+
+⏱️  Check completed in: .309955000s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 Testing: photography-website-turbopack-eslint
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧹 Cleaning .next directory...
+🔨 Building...
+
+
+> photography-website@2.1.0 build
+> next build
+
+   ▲ Next.js 16.0.0 (Turbopack)
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 9.9s
+   Running TypeScript ...
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15) in 1302.2ms
+   Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/[...all]
+├ ƒ /api/trpc/[trpc]
+├ ○ /blog
+├ ƒ /blog/[slug]
+├ ƒ /dashboard
+├ ƒ /dashboard/cities
+├ ƒ /dashboard/cities/[city]
+├ ƒ /dashboard/photos
+├ ƒ /dashboard/photos/[id]
+├ ƒ /dashboard/posts
+├ ƒ /dashboard/posts/[slug]
+├ ƒ /dashboard/posts/new
+├ ƒ /dashboard/profile
+├ ○ /discover
+├ ƒ /sign-in
+├ ○ /travel
+└ ƒ /travel/[city]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+⏱️  Build completed in: 18.968982000s
+
+🔍 Running code quality checks...
+    242 │ 								<input
+    243 │ 									type="file"
+  
+  i To add interactivity such as a mouse or key event listener to a static element, give the element an appropriate role value.
+  
+
+Skipped 45 suggested fixes.
+If you wish to apply the suggested (unsafe) fixes, use the command biome check --write --unsafe
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 149.
+Checked 276 files in 103ms. No fixes applied.
+Found 100 errors.
+Found 44 warnings.
+Found 25 infos.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while applying fixes.
+  
+
+
+⏱️  Check completed in: .307515000s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 Testing: photography-website-turbopack-eslint
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

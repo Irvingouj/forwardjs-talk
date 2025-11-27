@@ -1,0 +1,156 @@
+🧹 Cleaning .next directory...
+🔨 Building...
+
+
+> photography-website@2.1.0 build
+> next build --webpack
+
+   ▲ Next.js 16.0.0 (webpack)
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 19.7s
+   Running TypeScript ...
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15) in 855.3ms
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/[...all]
+├ ƒ /api/trpc/[trpc]
+├ ○ /blog
+├ ƒ /blog/[slug]
+├ ƒ /dashboard
+├ ƒ /dashboard/cities
+├ ƒ /dashboard/cities/[city]
+├ ƒ /dashboard/photos
+├ ƒ /dashboard/photos/[id]
+├ ƒ /dashboard/posts
+├ ƒ /dashboard/posts/[slug]
+├ ƒ /dashboard/posts/new
+├ ƒ /dashboard/profile
+├ ○ /discover
+├ ƒ /sign-in
+├ ○ /travel
+└ ƒ /travel/[city]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+⏱️  Build completed in: 38.309306000s
+
+🔍 Running code quality checks...
+  
+  i See MDN web docs for more details.
+  
+  i Consider replacing the unknown type selector with valid one.
+  
+
+Skipped 45 suggested fixes.
+If you wish to apply the suggested (unsafe) fixes, use the command biome check --write --unsafe
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 149.
+Checked 276 files in 119ms. No fixes applied.
+Found 100 errors.
+Found 44 warnings.
+Found 25 infos.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while applying fixes.
+  
+
+
+⏱️  Check completed in: .316908000s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 Testing: photography-website-webpack-eslint
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧹 Cleaning .next directory...
+🔨 Building...
+
+
+> photography-website@2.1.0 build
+> next build --webpack
+
+   ▲ Next.js 16.0.0 (webpack)
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 19.6s
+   Running TypeScript ...
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15) in 789.2ms
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/[...all]
+├ ƒ /api/trpc/[trpc]
+├ ○ /blog
+├ ƒ /blog/[slug]
+├ ƒ /dashboard
+├ ƒ /dashboard/cities
+├ ƒ /dashboard/cities/[city]
+├ ƒ /dashboard/photos
+├ ƒ /dashboard/photos/[id]
+├ ƒ /dashboard/posts
+├ ƒ /dashboard/posts/[slug]
+├ ƒ /dashboard/posts/new
+├ ƒ /dashboard/profile
+├ ○ /discover
+├ ƒ /sign-in
+├ ○ /travel
+└ ƒ /travel/[city]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+⏱️  Build completed in: 32.001518000s
+
+🔍 Running code quality checks...
+  
+  i See MDN web docs for more details.
+  
+  i Consider replacing the unknown type selector with valid one.
+  
+
+Skipped 45 suggested fixes.
+If you wish to apply the suggested (unsafe) fixes, use the command biome check --write --unsafe
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 149.
+Checked 276 files in 97ms. No fixes applied.
+Found 100 errors.
+Found 44 warnings.
+Found 25 infos.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while applying fixes.
+  
+
+
+⏱️  Check completed in: .307783000s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 Testing: photography-website-webpack-eslint
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

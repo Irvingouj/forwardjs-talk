@@ -1,0 +1,158 @@
+🧹 Cleaning .next directory...
+🔨 Building...
+
+
+> photography-website@2.1.0 build
+> next build --webpack
+
+   ▲ Next.js 16.0.0 (webpack)
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 19.1s
+   Running TypeScript ...
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15) in 878.8ms
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/[...all]
+├ ƒ /api/trpc/[trpc]
+├ ○ /blog
+├ ƒ /blog/[slug]
+├ ƒ /dashboard
+├ ƒ /dashboard/cities
+├ ƒ /dashboard/cities/[city]
+├ ƒ /dashboard/photos
+├ ƒ /dashboard/photos/[id]
+├ ƒ /dashboard/posts
+├ ƒ /dashboard/posts/[slug]
+├ ƒ /dashboard/posts/new
+├ ƒ /dashboard/profile
+├ ○ /discover
+├ ƒ /sign-in
+├ ○ /travel
+└ ƒ /travel/[city]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+⏱️  Build completed in: 36.701491000s
+
+🔍 Running code quality checks...
+  585 |   // Random width between 50 to 90%.
+  586 |   const width = React.useMemo(() => {
+> 587 |     return `${Math.floor(Math.random() * 40) + 50}%`;
+      |                          ^^^^^^^^^^^^^ Cannot call impure function
+  588 |   }, []);
+  589 |
+  590 |   return (  react-hooks/purity
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/modules/auth/ui/components/profile-form.tsx
+  16:1  warning  There should be no empty line within import group  import/order
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/modules/home/ui/components/profile-card.tsx
+  2:1  warning  There should be no empty line within import group  import/order
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/modules/photos/ui/components/photo-form.tsx
+  26:1  warning  There should be no empty line within import group  import/order
+
+✖ 12 problems (3 errors, 9 warnings)
+  0 errors and 2 warnings potentially fixable with the `--fix` option.
+
+
+⏱️  Check completed in: 6.717612000s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Benchmark complete!
+Results saved to: benchmark-results.txt
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧹 Cleaning .next directory...
+🔨 Building...
+
+
+> photography-website@2.1.0 build
+> next build --webpack
+
+   ▲ Next.js 16.0.0 (webpack)
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 19.0s
+   Running TypeScript ...
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15) in 851.9ms
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/auth/[...all]
+├ ƒ /api/trpc/[trpc]
+├ ○ /blog
+├ ƒ /blog/[slug]
+├ ƒ /dashboard
+├ ƒ /dashboard/cities
+├ ƒ /dashboard/cities/[city]
+├ ƒ /dashboard/photos
+├ ƒ /dashboard/photos/[id]
+├ ƒ /dashboard/posts
+├ ƒ /dashboard/posts/[slug]
+├ ƒ /dashboard/posts/new
+├ ƒ /dashboard/profile
+├ ○ /discover
+├ ƒ /sign-in
+├ ○ /travel
+└ ƒ /travel/[city]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+⏱️  Build completed in: 31.402216000s
+
+🔍 Running code quality checks...
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/app/layout.tsx
+   1:1  warning  There should be no empty line within import group                               import/order
+  12:1  warning  `@vercel/speed-insights/next` import should occur before type import of `next`  import/order
+  13:1  warning  `@vercel/analytics/next` import should occur before type import of `next`       import/order
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/components/editor/extensions/image-placeholder.tsx
+  192:13  warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/modules/auth/ui/components/profile-form.tsx
+  16:1  warning  There should be no empty line within import group  import/order
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/modules/home/ui/components/profile-card.tsx
+  2:1  warning  There should be no empty line within import group  import/order
+
+/Volumes/main/code/forwardjs-talk/examples/photography-website-webpack-eslint/src/modules/photos/ui/components/photo-form.tsx
+  26:1  warning  There should be no empty line within import group  import/order
+
+✖ 7 problems (0 errors, 7 warnings)
+
+
+⏱️  Check completed in: 6.314143000s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Benchmark complete!
+Results saved to: benchmark-results.txt
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

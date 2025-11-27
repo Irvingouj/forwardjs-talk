@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "extends": ["next/core-web-vitals"],
+  "parserOptions": { "ecmaVersion": 2020 },
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "eqeqeq": ["error", "always"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  }
+}
