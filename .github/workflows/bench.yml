@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
-    name: "📦 Setup Dependencies"
+  install-turbopack-biome:
+    name: "📦 Install Turbopack + Biome"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,38 +16,86 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            examples/photography-website-turbopack-biome/node_modules
-            examples/photography-website-turbopack-eslint/node_modules
-            examples/photography-website-webpack-biome/node_modules
-            examples/photography-website-webpack-eslint/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
-          restore-keys: |
-            deps-
-
-      - name: Install turbopack-biome
+      - name: Install dependencies
         working-directory: examples/photography-website-turbopack-biome
         run: npm ci || npm install
 
-      - name: Install turbopack-eslint
+      - name: Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: examples/photography-website-turbopack-biome/node_modules
+          key: deps-turbopack-biome-${{ github.run_id }}
+
+  install-turbopack-eslint:
+    name: "📦 Install Turbopack + ESLint"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
         working-directory: examples/photography-website-turbopack-eslint
         run: npm ci || npm install
 
-      - name: Install webpack-biome
+      - name: Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: examples/photography-website-turbopack-eslint/node_modules
+          key: deps-turbopack-eslint-${{ github.run_id }}
+
+  install-webpack-biome:
+    name: "📦 Install Webpack + Biome"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
         working-directory: examples/photography-website-webpack-biome
         run: npm ci || npm install
 
-      - name: Install webpack-eslint
+      - name: Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: examples/photography-website-webpack-biome/node_modules
+          key: deps-webpack-biome-${{ github.run_id }}
+
+  install-webpack-eslint:
+    name: "📦 Install Webpack + ESLint"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
         working-directory: examples/photography-website-webpack-eslint
         run: npm ci || npm install
+
+      - name: Save cache
+        uses: actions/cache/save@v4
+        with:
+          path: examples/photography-website-webpack-eslint/node_modules
+          key: deps-webpack-eslint-${{ github.run_id }}
 
   turbopack-biome-lint:
     name: "🏎️ Turbopack + Biome (Lint)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,11 +105,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-turbopack-biome/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-turbopack-biome-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Lint
@@ -71,7 +119,7 @@ jobs:
   turbopack-biome-build:
     name: "🏎️ Turbopack + Biome (Build)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,11 +129,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-turbopack-biome/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-turbopack-biome-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Build
@@ -95,7 +143,7 @@ jobs:
   turbopack-eslint-lint:
     name: "🏎️ Turbopack + ESLint (Lint)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -105,11 +153,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-turbopack-eslint/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-turbopack-eslint-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Lint
@@ -119,7 +167,7 @@ jobs:
   turbopack-eslint-build:
     name: "🏎️ Turbopack + ESLint (Build)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -129,11 +177,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-turbopack-eslint/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-turbopack-eslint-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Build
@@ -143,7 +191,7 @@ jobs:
   webpack-biome-lint:
     name: "📦 Webpack + Biome (Lint)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -153,11 +201,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-webpack-biome/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-webpack-biome-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Lint
@@ -167,7 +215,7 @@ jobs:
   webpack-biome-build:
     name: "📦 Webpack + Biome (Build)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -177,11 +225,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-webpack-biome/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-webpack-biome-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Build
@@ -191,7 +239,7 @@ jobs:
   webpack-eslint-lint:
     name: "📦 Webpack + ESLint (Lint)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -201,11 +249,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-webpack-eslint/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-webpack-eslint-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Lint
@@ -215,7 +263,7 @@ jobs:
   webpack-eslint-build:
     name: "📦 Webpack + ESLint (Build)"
     runs-on: ubuntu-latest
-    needs: setup
+    needs: [install-turbopack-biome, install-turbopack-eslint, install-webpack-biome, install-webpack-eslint]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -225,11 +273,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Restore dependencies
+      - name: Restore cache
         uses: actions/cache/restore@v4
         with:
           path: examples/photography-website-webpack-eslint/node_modules
-          key: deps-${{ hashFiles('examples/**/package-lock.json', 'examples/**/package.json') }}
+          key: deps-webpack-eslint-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Build
