@@ -18,11 +18,13 @@ jobs:
 
       - name: Install All
         run: |
-          cd examples/photography-website-turbopack-biome && (npm ci || npm install) &
-          cd examples/photography-website-turbopack-eslint && (npm ci || npm install) &
-          cd examples/photography-website-webpack-biome && (npm ci || npm install) &
-          cd examples/photography-website-webpack-eslint && (npm ci || npm install) &
-          wait
+          cd examples/photography-website-turbopack-biome && (npm ci || npm install)
+          cd ../../
+          cd examples/photography-website-turbopack-eslint && (npm ci || npm install)
+          cd ../../
+          cd examples/photography-website-webpack-biome && (npm ci || npm install)
+          cd ../../
+          cd examples/photography-website-webpack-eslint && (npm ci || npm install)
 
       - name: Cache workspace
         uses: actions/cache/save@v4
