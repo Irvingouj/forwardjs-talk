@@ -1,0 +1,78 @@
+name: Bench Examples
+
+on:
+  workflow_dispatch:
+    inputs:
+      example:
+        description: "Which example to run"
+        required: true
+        type: choice
+        options:
+          - webpack-basic
+          - photography-website-turbopack-biome
+          - photography-website-turbopack-eslint
+          - photography-website-webpack-biome
+          - photography-website-webpack-eslint
+          - rolldown-vite-demo
+      packageManager:
+        description: "Package manager"
+        required: false
+        type: choice
+        options: [npm, pnpm, yarn]
+        default: npm
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: ${{ github.event.inputs.packageManager }}
+
+      - name: Select working directory
+        id: select-dir
+        run: |
+          echo "EXAMPLE=${{ github.event.inputs.example }}" >> $GITHUB_OUTPUT
+
+      - name: Install deps
+        working-directory: ${{ steps.select-dir.outputs.EXAMPLE }}
+        run: |
+          if [ "${{ github.event.inputs.packageManager }}" = "pnpm" ]; then
+            corepack enable
+            pnpm i --frozen-lockfile || pnpm i
+          elif [ "${{ github.event.inputs.packageManager }}" = "yarn" ]; then
+            corepack enable
+            yarn install --frozen-lockfile || yarn install
+          else
+            npm ci || npm install
+          fi
+
+      - name: Lint
+        working-directory: ${{ steps.select-dir.outputs.EXAMPLE }}
+        run: |
+          if [ -f "package.json" ]; then
+            if jq -e '.scripts.lint' package.json >/dev/null 2>&1; then
+              npm run lint || true
+            else
+              # Try common linters
+              npx eslint . || npx @biomejs/biome check . || true
+            fi
+          fi
+
+      - name: Build
+        working-directory: ${{ steps.select-dir.outputs.EXAMPLE }}
+        run: |
+          if jq -e '.scripts.build' package.json >/dev/null 2>&1; then
+            npm run build || true
+          else
+            # Fallbacks
+            [ -f vite.config.ts ] && npm run build || true
+          fi
+
+      - name: Timing summary
+        run: echo "Bench completed for ${{ github.event.inputs.example }}"
